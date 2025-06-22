@@ -106,8 +106,6 @@ Brutal Swing
 Brutal Swing
 Feint Attack
 Feint Attack
-Faint Attack
-Faint Attack
 Thief
 Thief
 Snarl
@@ -194,8 +192,6 @@ Breaking Swipe
 Breaking Swipe
 Dragon Breath
 Dragon Breath
-DragonBreath
-DragonBreath
 Dragon Tail
 Dragon Tail
 Dragon Darts
@@ -254,8 +250,6 @@ Zing Zap
 Zing Zap
 Thunder Punch
 Thunder Punch
-ThunderPunch
-ThunderPunch
 Rising Voltage
 Rising Voltage
 Thunderclap
@@ -276,8 +270,6 @@ Charge Beam
 Charge Beam
 Thunder Shock
 Thunder Shock
-ThunderShock
-ThunderShock
 Nuzzle
 Nuzzle
 Electro Ball
@@ -356,8 +348,6 @@ Meteor Assault
 Meteor Assault
 High Jump Kick
 High Jump Kick
-Hi Jump Kick
-Hi Jump Kick
 Axe Kick
 Axe Kick
 Close Combat
@@ -372,8 +362,6 @@ Cross Chop
 Cross Chop
 Dynamic Punch
 Dynamic Punch
-DynamicPunch
-DynamicPunch
 Flying Press
 Flying Press
 Hammer Arm
@@ -592,8 +580,6 @@ Defog
 Defog
 Feather Dance
 Feather Dance
-FeatherDance
-FeatherDance
 Mirror Move
 Mirror Move
 Roost
@@ -742,8 +728,6 @@ Forest's Curse
 Forest's Curse
 Grass Whistle
 Grass Whistle
-GrassWhistle
-GrassWhistle
 Grassy Terrain
 Grassy Terrain
 Ingrain
@@ -820,8 +804,6 @@ Rototiller
 Rototiller
 Sand Attack
 Sand Attack
-Sand-Attack
-Sand-Attack
 Shore Up
 Shore Up
 Spikes
@@ -888,8 +870,6 @@ Explosion
 Explosion
 Self-Destruct
 Self-Destruct
-Selfdestruct
-Selfdestruct
 Giga Impact
 Giga Impact
 Hyper Beam
@@ -938,8 +918,6 @@ Body Slam
 Body Slam
 Extreme Speed
 Extreme Speed
-ExtremeSpeed
-ExtremeSpeed
 Hyper Fang
 Hyper Fang
 Mega Punch
@@ -974,8 +952,6 @@ Slash
 Slash
 Smelling Salts
 Smelling Salts
-SmellingSalt
-SmellingSalt
 Horn Attack
 Horn Attack
 Stomp
@@ -990,10 +966,6 @@ Swift
 Swift
 Vise Grip
 Vise Grip
-Vice Grip
-Vice Grip
-ViceGrip
-ViceGrip
 Cut
 Cut
 Rapid Spin
@@ -1044,8 +1016,6 @@ Bind
 Bind
 Double Slap
 Double Slap
-DoubleSlap
-DoubleSlap
 Fury Attack
 Fury Attack
 Wrap
@@ -1074,8 +1044,6 @@ Return
 Return
 Sonic Boom
 Sonic Boom
-SonicBoom
-SonicBoom
 Spit Up
 Spit Up
 Super Fang
@@ -1238,12 +1206,8 @@ Sleep Talk
 Sleep Talk
 Smokescreen
 Smokescreen
-SmokeScreen
-SmokeScreen
 Soft-Boiled
 Soft-Boiled
-Softboiled
-Softboiled
 Splash
 Splash
 Spotlight
@@ -1340,8 +1304,6 @@ Poison Gas
 Poison Gas
 Poison Powder
 Poison Powder
-PoisonPowder
-PoisonPowder
 Purify
 Purify
 Toxic
@@ -1518,8 +1480,6 @@ Stone Axe
 Stone Axe
 Ancient Power
 Ancient Power
-AncientPower
-AncientPower
 Rock Tomb
 Rock Tomb
 Rock Throw
@@ -1660,8 +1620,6 @@ Brine
 Brine
 Bubble Beam
 Bubble Beam
-BubbleBeam
-BubbleBeam
 Octazooka
 Octazooka
 Flip Turn

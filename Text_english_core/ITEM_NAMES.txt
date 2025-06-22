@@ -26,8 +26,6 @@ Fire Stone
 Fire Stone
 Thunder Stone
 Thunder Stone
-Thunderstone
-Thunderstone
 Water Stone
 Water Stone
 Leaf Stone
@@ -76,28 +74,16 @@ Red Apricorn
 Red Apricorn
 Yellow Apricorn
 Yellow Apricorn
-Ylw Apricorn
-Ylw Apricorn
 Blue Apricorn
 Blue Apricorn
-Blu Apricorn
-Blu Apricorn
 Green Apricorn
 Green Apricorn
-Grn Apricorn
-Grn Apricorn
 Pink Apricorn
 Pink Apricorn
-Pnk Apricorn
-Pnk Apricorn
 White Apricorn
 White Apricorn
-Wht Apricorn
-Wht Apricorn
 Black Apricorn
 Black Apricorn
-Blk Apricorn
-Blk Apricorn
 Helix Fossil
 Helix Fossil
 Dome Fossil
@@ -130,18 +116,12 @@ Fossilized Dino
 Fossilized Dino
 Pretty Feather
 Pretty Feather
-Pretty Wing
-Pretty Wing
 Tiny Mushroom
 Tiny Mushroom
-TinyMushroom
-TinyMushroom
 Big Mushroom
 Big Mushroom
 Balm Mushroom
 Balm Mushroom
-BalmMushroom
-BalmMushroom
 Pearl
 Pearl
 Big Pearl
@@ -162,8 +142,6 @@ Heart Scale
 Heart Scale
 Slowpoke Tail
 Slowpoke Tail
-SlowpokeTail
-SlowpokeTail
 Rare Bone
 Rare Bone
 Relic Copper
@@ -206,12 +184,394 @@ Pink Nectar
 Pink Nectar
 Purple Nectar
 Purple Nectar
+Grass Mail
+Grass Mail
+Flame Mail
+Flame Mail
+Bubble Mail
+Bubble Mail
+Bloom Mail
+Bloom Mail
+Tunnel Mail
+Tunnel Mail
+Steel Mail
+Steel Mail
+Heart Mail
+Heart Mail
+Snow Mail
+Snow Mail
+Space Mail
+Space Mail
+Air Mail
+Air Mail
+Mosaic Mail
+Mosaic Mail
+Brick Mail
+Brick Mail
+Potion
+Potion
+Super Potion
+Super Potion
+Hyper Potion
+Hyper Potion
+Max Potion
+Max Potion
+Full Restore
+Full Restore
+Sacred Ash
+Sacred Ash
+Awakening
+Awakening
+Antidote
+Antidote
+Burn Heal
+Burn Heal
+Paralyze Heal
+Paralyze Heal
+Ice Heal
+Ice Heal
+Full Heal
+Full Heal
+Pewter Crunchies
+Pewter Crunchies
+Rage Candy Bar
+Rage Candy Bar
+Lava Cookie
+Lava Cookie
+Old Gateau
+Old Gateau
+Casteliacone
+Casteliacone
+Lumiose Galette
+Lumiose Galette
+Shalour Sable
+Shalour Sable
+Big Malasada
+Big Malasada
+Revive
+Revive
+Max Revive
+Max Revive
+Berry Juice
+Berry Juice
+Sweet Heart
+Sweet Heart
+Fresh Water
+Fresh Water
+Soda Pop
+Soda Pop
+Lemonade
+Lemonade
+Moomoo Milk
+Moomoo Milk
+Energy Powder
+Energy Powder
+Energy Root
+Energy Root
+Heal Powder
+Heal Powder
+Revival Herb
+Revival Herb
+Max Honey
+Max Honey
+Ether
+Ether
+Max Ether
+Max Ether
+Elixir
+Elixir
+Max Elixir
+Max Elixir
+PP Up
+PP Up
+PP Max
+PP Max
+HP Up
+HP Up
+Protein
+Protein
+Iron
+Iron
+Calcium
+Calcium
+Zinc
+Zinc
+Carbos
+Carbos
+Health Feather
+Health Feather
+Muscle Feather
+Muscle Feather
+Resist Feather
+Resist Feather
+Genius Feather
+Genius Feather
+Clever Feather
+Clever Feather
+Swift Feather
+Swift Feather
+Health Mochi
+Health Mochi
+Muscle Mochi
+Muscle Mochi
+Resist Mochi
+Resist Mochi
+Genius Mochi
+Genius Mochi
+Clever Mochi
+Clever Mochi
+Swift Mochi
+Swift Mochi
+Fresh-Start Mochi
+Fresh-Start Mochi
+Lonely Mint
+Lonely Mint
+Adamant Mint
+Adamant Mint
+Naughty Mint
+Naughty Mint
+Brave Mint
+Brave Mint
+Bold Mint
+Bold Mint
+Impish Mint
+Impish Mint
+Lax Mint
+Lax Mint
+Relaxed Mint
+Relaxed Mint
+Modest Mint
+Modest Mint
+Mild Mint
+Mild Mint
+Rash Mint
+Rash Mint
+Quiet Mint
+Quiet Mint
+Calm Mint
+Calm Mint
+Gentle Mint
+Gentle Mint
+Careful Mint
+Careful Mint
+Sassy Mint
+Sassy Mint
+Timid Mint
+Timid Mint
+Hasty Mint
+Hasty Mint
+Jolly Mint
+Jolly Mint
+Naive Mint
+Naive Mint
+Serious Mint
+Serious Mint
+Ability Capsule
+Ability Capsule
+Ability Patch
+Ability Patch
+Exp. Candy XS
+Exp. Candy XS
+Exp. Candy S
+Exp. Candy S
+Exp. Candy M
+Exp. Candy M
+Exp. Candy L
+Exp. Candy L
+Exp. Candy XL
+Exp. Candy XL
+Rare Candy
+Rare Candy
+Master Ball
+Master Ball
+Ultra Ball
+Ultra Ball
+Great Ball
+Great Ball
+Poké Ball
+Poké Ball
+Safari Ball
+Safari Ball
+Sport Ball
+Sport Ball
+Net Ball
+Net Ball
+Dive Ball
+Dive Ball
+Nest Ball
+Nest Ball
+Repeat Ball
+Repeat Ball
+Timer Ball
+Timer Ball
+Luxury Ball
+Luxury Ball
+Premier Ball
+Premier Ball
+Dusk Ball
+Dusk Ball
+Heal Ball
+Heal Ball
+Quick Ball
+Quick Ball
+Cherish Ball
+Cherish Ball
+Fast Ball
+Fast Ball
+Level Ball
+Level Ball
+Lure Ball
+Lure Ball
+Heavy Ball
+Heavy Ball
+Love Ball
+Love Ball
+Friend Ball
+Friend Ball
+Moon Ball
+Moon Ball
+Dream Ball
+Dream Ball
+Beast Ball
+Beast Ball
+Cheri Berry
+Cheri Berry
+Chesto Berry
+Chesto Berry
+Pecha Berry
+Pecha Berry
+Rawst Berry
+Rawst Berry
+Aspear Berry
+Aspear Berry
+Leppa Berry
+Leppa Berry
+Oran Berry
+Oran Berry
+Persim Berry
+Persim Berry
+Lum Berry
+Lum Berry
+Sitrus Berry
+Sitrus Berry
+Figy Berry
+Figy Berry
+Wiki Berry
+Wiki Berry
+Mago Berry
+Mago Berry
+Aguav Berry
+Aguav Berry
+Iapapa Berry
+Iapapa Berry
+Razz Berry
+Razz Berry
+Bluk Berry
+Bluk Berry
+Nanab Berry
+Nanab Berry
+Wepear Berry
+Wepear Berry
+Pinap Berry
+Pinap Berry
+Pomeg Berry
+Pomeg Berry
+Kelpsy Berry
+Kelpsy Berry
+Qualot Berry
+Qualot Berry
+Hondew Berry
+Hondew Berry
+Grepa Berry
+Grepa Berry
+Tamato Berry
+Tamato Berry
+Cornn Berry
+Cornn Berry
+Magost Berry
+Magost Berry
+Rabuta Berry
+Rabuta Berry
+Nomel Berry
+Nomel Berry
+Spelon Berry
+Spelon Berry
+Pamtre Berry
+Pamtre Berry
+Watmel Berry
+Watmel Berry
+Durin Berry
+Durin Berry
+Belue Berry
+Belue Berry
+Occa Berry
+Occa Berry
+Passho Berry
+Passho Berry
+Wacan Berry
+Wacan Berry
+Rindo Berry
+Rindo Berry
+Yache Berry
+Yache Berry
+Chople Berry
+Chople Berry
+Kebia Berry
+Kebia Berry
+Shuca Berry
+Shuca Berry
+Coba Berry
+Coba Berry
+Payapa Berry
+Payapa Berry
+Tanga Berry
+Tanga Berry
+Charti Berry
+Charti Berry
+Kasib Berry
+Kasib Berry
+Haban Berry
+Haban Berry
+Colbur Berry
+Colbur Berry
+Babiri Berry
+Babiri Berry
+Roseli Berry
+Roseli Berry
+Chilan Berry
+Chilan Berry
+Liechi Berry
+Liechi Berry
+Ganlon Berry
+Ganlon Berry
+Salac Berry
+Salac Berry
+Petaya Berry
+Petaya Berry
+Apicot Berry
+Apicot Berry
+Lansat Berry
+Lansat Berry
+Starf Berry
+Starf Berry
+Enigma Berry
+Enigma Berry
+Micle Berry
+Micle Berry
+Custap Berry
+Custap Berry
+Jaboca Berry
+Jaboca Berry
+Rowap Berry
+Rowap Berry
+Kee Berry
+Kee Berry
+Maranga Berry
+Maranga Berry
 Air Balloon
 Air Balloon
 Bright Powder
 Bright Powder
-BrightPowder
-BrightPowder
 Eviolite
 Eviolite
 Float Stone
@@ -408,8 +768,6 @@ Miracle Seed
 Miracle Seed
 Never-Melt Ice
 Never-Melt Ice
-NeverMeltIce
-NeverMeltIce
 Black Belt
 Black Belt
 Poison Barb
@@ -420,12 +778,8 @@ Sharp Beak
 Sharp Beak
 Twisted Spoon
 Twisted Spoon
-TwistedSpoon
-TwistedSpoon
 Silver Powder
 Silver Powder
-SilverPowder
-SilverPowder
 Hard Stone
 Hard Stone
 Spell Tag
@@ -434,8 +788,6 @@ Dragon Fang
 Dragon Fang
 Black Glasses
 Black Glasses
-BlackGlasses
-BlackGlasses
 Metal Coat
 Metal Coat
 Fairy Feather
@@ -524,18 +876,12 @@ Thick Club
 Thick Club
 Leek
 Leek
-Stick
-Stick
 Soul Dew
 Soul Dew
 Deep Sea Tooth
 Deep Sea Tooth
-DeepSeaTooth
-DeepSeaTooth
 Deep Sea Scale
 Deep Sea Scale
-DeepSeaScale
-DeepSeaScale
 Adamant Orb
 Adamant Orb
 Lustrous Orb
@@ -606,8 +952,6 @@ Dragon Scale
 Dragon Scale
 Upgrade
 Upgrade
-Up-Grade
-Up-Grade
 Dubious Disc
 Dubious Disc
 Protector
@@ -738,250 +1082,84 @@ Red Orb
 Red Orb
 Blue Orb
 Blue Orb
-Potion
-Potion
-Super Potion
-Super Potion
-Hyper Potion
-Hyper Potion
-Max Potion
-Max Potion
-Full Restore
-Full Restore
-Sacred Ash
-Sacred Ash
-Awakening
-Awakening
-Antidote
-Antidote
-Burn Heal
-Burn Heal
-Paralyze Heal
-Paralyze Heal
-Parlyz Heal
-Parlyz Heal
-Ice Heal
-Ice Heal
-Full Heal
-Full Heal
-Pewter Crunchies
-Pewter Crunchies
-Rage Candy Bar
-Rage Candy Bar
-RageCandyBar
-RageCandyBar
-Lava Cookie
-Lava Cookie
-Old Gateau
-Old Gateau
-Casteliacone
-Casteliacone
-Lumiose Galette
-Lumiose Galette
-Shalour Sable
-Shalour Sable
-Big Malasada
-Big Malasada
-Revive
-Revive
-Max Revive
-Max Revive
-Berry Juice
-Berry Juice
-Sweet Heart
-Sweet Heart
-Fresh Water
-Fresh Water
-Soda Pop
-Soda Pop
-Lemonade
-Lemonade
-Moomoo Milk
-Moomoo Milk
-Energy Powder
-Energy Powder
-EnergyPowder
-EnergyPowder
-Energy Root
-Energy Root
-Heal Powder
-Heal Powder
-Revival Herb
-Revival Herb
-Max Honey
-Max Honey
-Ether
-Ether
-Max Ether
-Max Ether
-Elixir
-Elixir
-Max Elixir
-Max Elixir
-PP Up
-PP Up
-PP Max
-PP Max
-HP Up
-HP Up
-Protein
-Protein
-Iron
-Iron
-Calcium
-Calcium
-Zinc
-Zinc
-Carbos
-Carbos
-Health Feather
-Health Feather
-Health Wing
-Health Wing
-Muscle Feather
-Muscle Feather
-Muscle Wing
-Muscle Wing
-Resist Feather
-Resist Feather
-Resist Wing
-Resist Wing
-Genius Feather
-Genius Feather
-Genius Wing
-Genius Wing
-Clever Feather
-Clever Feather
-Clever Wing
-Clever Wing
-Swift Feather
-Swift Feather
-Swift Wing
-Swift Wing
-Health Mochi
-Health Mochi
-Muscle Mochi
-Muscle Mochi
-Resist Mochi
-Resist Mochi
-Genius Mochi
-Genius Mochi
-Clever Mochi
-Clever Mochi
-Swift Mochi
-Swift Mochi
-Fresh-Start Mochi
-Fresh-Start Mochi
-Lonely Mint
-Lonely Mint
-Adamant Mint
-Adamant Mint
-Naughty Mint
-Naughty Mint
-Brave Mint
-Brave Mint
-Bold Mint
-Bold Mint
-Impish Mint
-Impish Mint
-Lax Mint
-Lax Mint
-Relaxed Mint
-Relaxed Mint
-Modest Mint
-Modest Mint
-Mild Mint
-Mild Mint
-Rash Mint
-Rash Mint
-Quiet Mint
-Quiet Mint
-Calm Mint
-Calm Mint
-Gentle Mint
-Gentle Mint
-Careful Mint
-Careful Mint
-Sassy Mint
-Sassy Mint
-Timid Mint
-Timid Mint
-Hasty Mint
-Hasty Mint
-Jolly Mint
-Jolly Mint
-Naive Mint
-Naive Mint
-Serious Mint
-Serious Mint
-Ability Capsule
-Ability Capsule
-Ability Patch
-Ability Patch
-Exp. Candy XS
-Exp. Candy XS
-Exp. Candy S
-Exp. Candy S
-Exp. Candy M
-Exp. Candy M
-Exp. Candy L
-Exp. Candy L
-Exp. Candy XL
-Exp. Candy XL
-Rare Candy
-Rare Candy
-Master Ball
-Master Ball
-Ultra Ball
-Ultra Ball
-Great Ball
-Great Ball
-Poké Ball
-Poké Ball
-Safari Ball
-Safari Ball
-Sport Ball
-Sport Ball
-Net Ball
-Net Ball
-Dive Ball
-Dive Ball
-Nest Ball
-Nest Ball
-Repeat Ball
-Repeat Ball
-Timer Ball
-Timer Ball
-Luxury Ball
-Luxury Ball
-Premier Ball
-Premier Ball
-Dusk Ball
-Dusk Ball
-Heal Ball
-Heal Ball
-Quick Ball
-Quick Ball
-Cherish Ball
-Cherish Ball
-Fast Ball
-Fast Ball
-Level Ball
-Level Ball
-Lure Ball
-Lure Ball
-Heavy Ball
-Heavy Ball
-Love Ball
-Love Ball
-Friend Ball
-Friend Ball
-Moon Ball
-Moon Ball
-Dream Ball
-Dream Ball
-Beast Ball
-Beast Ball
+X Attack
+X Attack
+X Attack 2
+X Attack 2
+X Attack 3
+X Attack 3
+X Attack 6
+X Attack 6
+X Defense
+X Defense
+X Defense 2
+X Defense 2
+X Defense 3
+X Defense 3
+X Defense 6
+X Defense 6
+X Sp. Atk
+X Sp. Atk
+X Sp. Atk 2
+X Sp. Atk 2
+X Sp. Atk 3
+X Sp. Atk 3
+X Sp. Atk 6
+X Sp. Atk 6
+X Sp. Def
+X Sp. Def
+X Sp. Def 2
+X Sp. Def 2
+X Sp. Def 3
+X Sp. Def 3
+X Sp. Def 6
+X Sp. Def 6
+X Speed
+X Speed
+X Speed 2
+X Speed 2
+X Speed 3
+X Speed 3
+X Speed 6
+X Speed 6
+X Accuracy
+X Accuracy
+X Accuracy 2
+X Accuracy 2
+X Accuracy 3
+X Accuracy 3
+X Accuracy 6
+X Accuracy 6
+Max Mushrooms
+Max Mushrooms
+Dire Hit
+Dire Hit
+Dire Hit 2
+Dire Hit 2
+Dire Hit 3
+Dire Hit 3
+Guard Spec.
+Guard Spec.
+Reset Urge
+Reset Urge
+Ability Urge
+Ability Urge
+Item Urge
+Item Urge
+Item Drop
+Item Drop
+Blue Flute
+Blue Flute
+Yellow Flute
+Yellow Flute
+Red Flute
+Red Flute
+Poké Doll
+Poké Doll
+Fluffy Tail
+Fluffy Tail
+Poké Toy
+Poké Toy
 TM01
 TM01
 TM02
@@ -1194,258 +1372,6 @@ HM05
 HM05
 HM06
 HM06
-Cheri Berry
-Cheri Berry
-Chesto Berry
-Chesto Berry
-Pecha Berry
-Pecha Berry
-Rawst Berry
-Rawst Berry
-Aspear Berry
-Aspear Berry
-Leppa Berry
-Leppa Berry
-Oran Berry
-Oran Berry
-Persim Berry
-Persim Berry
-Lum Berry
-Lum Berry
-Sitrus Berry
-Sitrus Berry
-Figy Berry
-Figy Berry
-Wiki Berry
-Wiki Berry
-Mago Berry
-Mago Berry
-Aguav Berry
-Aguav Berry
-Iapapa Berry
-Iapapa Berry
-Razz Berry
-Razz Berry
-Bluk Berry
-Bluk Berry
-Nanab Berry
-Nanab Berry
-Wepear Berry
-Wepear Berry
-Pinap Berry
-Pinap Berry
-Pomeg Berry
-Pomeg Berry
-Kelpsy Berry
-Kelpsy Berry
-Qualot Berry
-Qualot Berry
-Hondew Berry
-Hondew Berry
-Grepa Berry
-Grepa Berry
-Tamato Berry
-Tamato Berry
-Cornn Berry
-Cornn Berry
-Magost Berry
-Magost Berry
-Rabuta Berry
-Rabuta Berry
-Nomel Berry
-Nomel Berry
-Spelon Berry
-Spelon Berry
-Pamtre Berry
-Pamtre Berry
-Watmel Berry
-Watmel Berry
-Durin Berry
-Durin Berry
-Belue Berry
-Belue Berry
-Occa Berry
-Occa Berry
-Passho Berry
-Passho Berry
-Wacan Berry
-Wacan Berry
-Rindo Berry
-Rindo Berry
-Yache Berry
-Yache Berry
-Chople Berry
-Chople Berry
-Kebia Berry
-Kebia Berry
-Shuca Berry
-Shuca Berry
-Coba Berry
-Coba Berry
-Payapa Berry
-Payapa Berry
-Tanga Berry
-Tanga Berry
-Charti Berry
-Charti Berry
-Kasib Berry
-Kasib Berry
-Haban Berry
-Haban Berry
-Colbur Berry
-Colbur Berry
-Babiri Berry
-Babiri Berry
-Roseli Berry
-Roseli Berry
-Chilan Berry
-Chilan Berry
-Liechi Berry
-Liechi Berry
-Ganlon Berry
-Ganlon Berry
-Salac Berry
-Salac Berry
-Petaya Berry
-Petaya Berry
-Apicot Berry
-Apicot Berry
-Lansat Berry
-Lansat Berry
-Starf Berry
-Starf Berry
-Enigma Berry
-Enigma Berry
-Micle Berry
-Micle Berry
-Custap Berry
-Custap Berry
-Jaboca Berry
-Jaboca Berry
-Rowap Berry
-Rowap Berry
-Kee Berry
-Kee Berry
-Maranga Berry
-Maranga Berry
-Grass Mail
-Grass Mail
-Flame Mail
-Flame Mail
-Bubble Mail
-Bubble Mail
-Bloom Mail
-Bloom Mail
-Tunnel Mail
-Tunnel Mail
-Steel Mail
-Steel Mail
-Heart Mail
-Heart Mail
-Snow Mail
-Snow Mail
-Space Mail
-Space Mail
-Air Mail
-Air Mail
-Mosaic Mail
-Mosaic Mail
-Brick Mail
-Brick Mail
-X Attack
-X Attack
-X Attack 2
-X Attack 2
-X Attack 3
-X Attack 3
-X Attack 6
-X Attack 6
-X Defense
-X Defense
-X Defend
-X Defend
-X Defense 2
-X Defense 2
-X Defend 2
-X Defend 2
-X Defense 3
-X Defense 3
-X Defend 3
-X Defend 3
-X Defense 6
-X Defense 6
-X Defend 6
-X Defend 6
-X Sp. Atk
-X Sp. Atk
-X Special
-X Special
-X Sp. Atk 2
-X Sp. Atk 2
-X Special 2
-X Special 2
-X Sp. Atk 3
-X Sp. Atk 3
-X Special 3
-X Special 3
-X Sp. Atk 6
-X Sp. Atk 6
-X Special 6
-X Special 6
-X Sp. Def
-X Sp. Def
-X Sp. Def 2
-X Sp. Def 2
-X Sp. Def 3
-X Sp. Def 3
-X Sp. Def 6
-X Sp. Def 6
-X Speed
-X Speed
-X Speed 2
-X Speed 2
-X Speed 3
-X Speed 3
-X Speed 6
-X Speed 6
-X Accuracy
-X Accuracy
-X Accuracy 2
-X Accuracy 2
-X Accuracy 3
-X Accuracy 3
-X Accuracy 6
-X Accuracy 6
-Max Mushrooms
-Max Mushrooms
-Dire Hit
-Dire Hit
-Dire Hit 2
-Dire Hit 2
-Dire Hit 3
-Dire Hit 3
-Guard Spec.
-Guard Spec.
-Reset Urge
-Reset Urge
-Ability Urge
-Ability Urge
-Item Urge
-Item Urge
-Item Drop
-Item Drop
-Blue Flute
-Blue Flute
-Yellow Flute
-Yellow Flute
-Red Flute
-Red Flute
-Poké Doll
-Poké Doll
-Fluffy Tail
-Fluffy Tail
-Poké Toy
-Poké Toy
 Bicycle
 Bicycle
 Bike
@@ -1460,8 +1386,6 @@ Itemfinder
 Itemfinder
 Dowsing Machine
 Dowsing Machine
-Dowsing MCHN
-Dowsing MCHN
 Poké Radar
 Poké Radar
 Town Map
@@ -1480,8 +1404,6 @@ Devon Scope
 Devon Scope
 Squirt Bottle
 Squirt Bottle
-SquirtBottle
-SquirtBottle
 Sprayduck
 Sprayduck
 Wailmer Pail

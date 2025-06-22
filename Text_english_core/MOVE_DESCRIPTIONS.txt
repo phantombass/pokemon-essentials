@@ -1356,8 +1356,6 @@ The target is attacked with an odd psychic wave. The attack varies in intensity.
 The target is attacked with an odd psychic wave. The attack varies in intensity.
 The user relaxes and lightens its body to move faster. It sharply boosts the Speed stat.
 The user relaxes and lightens its body to move faster. It sharply boosts the Speed stat.
-The user teleports using a strange power and switches its place with one of its allies.
-The user teleports using a strange power and switches its place with one of its allies.
 The user uses a strange power to switch places with an ally. More likely to fail if used in succession.
 The user uses a strange power to switch places with an ally. More likely to fail if used in succession.
 The user temporarily empties its mind to forget its concerns. It sharply raises the user's Sp. Def stat.
