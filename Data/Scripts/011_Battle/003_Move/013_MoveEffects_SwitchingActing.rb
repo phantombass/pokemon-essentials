@@ -156,7 +156,7 @@ class Battle::Move::SwitchOutTargetStatusMove < Battle::Move
 
   def pbFailsAgainstTarget?(user, target, show_message)
     return true if !target.canBeForcedOutOfBattle?(show_message)
-    if target.wild? && target.allAllies.length == 0 && @battle.canRun
+    if target.wild? && target.allAllies.length == 0 && !@battle.rules[:cannot_run]
       # End the battle
       if target.level > user.level
         @battle.pbDisplay(_INTL("But it failed!")) if show_message
@@ -211,7 +211,7 @@ end
 #===============================================================================
 class Battle::Move::SwitchOutTargetDamagingMove < Battle::Move
   def pbEffectAgainstTarget(user, target)
-    if target.wild? && target.allAllies.length == 0 && @battle.canRun &&
+    if target.wild? && target.allAllies.length == 0 && !@battle.rules[:cannot_run] &&
        target.level <= user.level &&
        (target.effects[PBEffects::Substitute] == 0 || ignoresSubstitute?(user))
       @battle.decision = Battle::Outcome::FLEE

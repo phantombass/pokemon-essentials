@@ -159,7 +159,7 @@ class Battle::Scene
       # Choose a command for the selected Pokémon
       commands = {}
       commands[:switch_in]     = _INTL("Switch In") if mode == 0 && pkmn.able? &&
-                                                       (@battle.canSwitch || !canCancel)
+                                                       (!@battle.rules[:cannot_switch] || !canCancel)
       commands[:send_to_boxes] = _INTL("Send to Boxes") if mode == 1
       commands[:summary]       = _INTL("Summary")
       commands[:cancel]        = _INTL("Cancel")

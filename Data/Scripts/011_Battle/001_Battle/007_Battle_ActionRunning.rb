@@ -9,7 +9,7 @@ class Battle
   def pbCanRun?(idxBattler)
     return false if trainerBattle?
     battler = @battlers[idxBattler]
-    return false if !@canRun && !battler.opposes?
+    return false if @rules[:cannot_run] && !battler.opposes?
     return true if battler.pbHasType?(:GHOST) && Settings::MORE_TYPE_EFFECTS
     return true if battler.abilityActive? &&
                    Battle::AbilityEffects.triggerCertainEscapeFromBattle(battler.ability, battler)
@@ -93,7 +93,7 @@ class Battle
       end
       return 0
     end
-    if !@canRun
+    if @rules[:cannot_run]
       pbDisplayPaused(_INTL("You can't escape!"))
       return 0
     end

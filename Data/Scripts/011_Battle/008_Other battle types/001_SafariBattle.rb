@@ -281,12 +281,6 @@ class SafariBattle
   attr_reader   :weather
   attr_reader   :player
   attr_accessor :party2
-  attr_accessor :canRun           # True if player can run from battle
-  attr_accessor :canLose          # True if player won't black out if they lose
-  attr_accessor :switchStyle      # Switch/Set "battle style" option
-  attr_accessor :showAnims        # "Battle scene" option (show anims)
-  attr_accessor :expGain          # Whether Pokémon can gain Exp/EVs
-  attr_accessor :moneyGain        # Whether the player can gain/lose money
   attr_accessor :rules
   attr_accessor :ballCount
 
@@ -317,7 +311,6 @@ class SafariBattle
     return Battle::Outcome.decided?(@decision)
   end
 
-  def disablePokeBalls=(value); end
   def sendToBoxes=(value); end
   def defaultWeather=(value); @weather = value; end
   def defaultTerrain=(value); end

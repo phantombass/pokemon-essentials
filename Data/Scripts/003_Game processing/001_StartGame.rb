@@ -106,7 +106,7 @@ module Game
   # @param safe [Boolean] whether $PokemonGlobal.safesave should be set to true
   # @return [Boolean] whether the operation was successful
   # @raise [SaveData::InvalidValueError] if an invalid value is being saved
-  def save(index, directory = SaveData::DIRECTORY, safe: false)
+  def save(index = 0, directory = SaveData::DIRECTORY, safe: false)
     validate index => Integer, directory => String, safe => [TrueClass, FalseClass]
     filename = SaveData.filename_from_index(index)
     $PokemonGlobal.safesave = safe

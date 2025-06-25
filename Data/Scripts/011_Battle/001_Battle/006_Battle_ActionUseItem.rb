@@ -79,6 +79,9 @@ class Battle
     end
   end
 
+  # TODO: Make this say "...on Pikachu" if the item is used on a Pokémon in
+  #       battle/in the party and there are multiple Pokémon it could have been
+  #       used on.
   def pbUseItemMessage(item, trainerName)
     itemName = GameData::Item.get(item).portion_name
     if itemName.starts_with_vowel?

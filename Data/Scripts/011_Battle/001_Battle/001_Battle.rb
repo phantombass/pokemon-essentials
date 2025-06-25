@@ -83,15 +83,7 @@ class Battle
   attr_accessor :party2starts     # Array of start indexes for each opponent-side trainer's party
   attr_accessor :internalBattle   # Internal battle flag
   attr_accessor :debug            # Debug flag
-  attr_accessor :canRun           # True if player can run from battle
-  attr_accessor :canLose          # True if player won't black out if they lose
-  attr_accessor :canSwitch        # True if player is allowed to switch Pokémon
-  attr_accessor :switchStyle      # Switch/Set "battle style" option
-  attr_accessor :showAnims        # "Battle Effects" option
   attr_accessor :controlPlayer    # Whether player's Pokémon are AI controlled
-  attr_accessor :expGain          # Whether Pokémon can gain Exp/EVs
-  attr_accessor :moneyGain        # Whether the player can gain/lose money
-  attr_accessor :disablePokeBalls # Whether Poké Balls cannot be thrown at all
   attr_accessor :sendToBoxes      # Send to Boxes (0=ask, 1=don't ask, 2=must add to party)
   attr_accessor :rules
   attr_accessor :choices          # Choices made by each Pokémon this round
@@ -153,15 +145,7 @@ class Battle
     @party2starts      = [0]
     @internalBattle    = true
     @debug             = false
-    @canRun            = true
-    @canLose           = false
-    @canSwitch         = true
-    @switchStyle       = true
-    @showAnims         = true
     @controlPlayer     = false
-    @expGain           = true
-    @moneyGain         = true
-    @disablePokeBalls  = false
     @sendToBoxes       = 1
     @rules             = {}
     @priority          = []
@@ -884,11 +868,11 @@ class Battle
   end
 
   def pbAnimation(move, user, targets, hitNum = 0)
-    @scene.pbAnimation(move, user, targets, hitNum) if @showAnims
+    @scene.pbAnimation(move, user, targets, hitNum) if !@rules[:no_battle_animations]
   end
 
   def pbCommonAnimation(name, user = nil, targets = nil)
-    @scene.pbCommonAnimation(name, user, targets) if @showAnims
+    @scene.pbCommonAnimation(name, user, targets) if !@rules[:no_battle_animations]
   end
 
   def pbShowAbilitySplash(battler, delay = false, logTrigger = true)

@@ -88,15 +88,27 @@ module Settings
   # Capturing Pokémon
   #-----------------------------------------------------------------------------
 
+  # Whether it is easier for wild Pokémon below level 13 to be caught.
+  CATCH_RATE_BONUS_FOR_LOW_LEVEL                      = (MECHANICS_GENERATION >= 8)
+  # If the player doesn't have at least this number of Gym Badges, the chance of
+  # catching any wild Pokémon whose level is higher than the player's Pokémon
+  # will be divided by 10. 0 means this penalty never applies. Note that this
+  # shouldn't be used with the Setting directly below.
+  NUM_BADGES_TO_NOT_MAKE_HIGHER_LEVEL_CAPTURES_HARDER = (MECHANICS_GENERATION == 8) ? 8 : 0
+  # If true, wild Pokémon that would disobey the player because of their level
+  # (except if it's within 5 levels of the maximum obedience level) will be
+  # harder to catch. Note that this shouldn't be used with the Setting directly
+  # above.
+  CATCH_RATE_PENALTY_IF_POKEMON_WILL_NOT_OBEY         = (MECHANICS_GENERATION >= 9)
   # Whether the critical capture mechanic applies. Note that its calculation is
   # based on a total of 600+ species (i.e. that many species need to be caught
   # to provide the greatest critical capture chance of 2.5x), and there may be
   # fewer species in your game.
-  ENABLE_CRITICAL_CAPTURES             = (MECHANICS_GENERATION >= 5)
+  ENABLE_CRITICAL_CAPTURES                            = (MECHANICS_GENERATION >= 5)
   # Whether the player is asked what to do with a newly caught Pokémon if their
   # party is full. If true, the player can toggle whether they are asked this in
   # the Options screen.
-  NEW_CAPTURE_CAN_REPLACE_PARTY_MEMBER = (MECHANICS_GENERATION >= 7)
+  NEW_CAPTURE_CAN_REPLACE_PARTY_MEMBER                = (MECHANICS_GENERATION >= 7)
 
   #-----------------------------------------------------------------------------
   # Exp and EV gain

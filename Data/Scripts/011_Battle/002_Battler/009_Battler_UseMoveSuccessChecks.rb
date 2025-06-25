@@ -102,6 +102,18 @@ class Battle::Battler
 
   #-----------------------------------------------------------------------------
 
+  def pbMaxLevelBadgeObedience
+    ret = 10 * (@battle.pbPlayer.badge_count + 1)
+    ret = GameData::GrowthRate.max_level if @battle.pbPlayer.badge_count >= 8
+    return ret
+  end
+
+  # This is the inverse of the above method.
+  def pbBadgesNeededToObey
+    return 8 if @level > 80
+    return (@level - 1) / 10
+  end
+
   # Obedience check.
   # Return true if Pokémon continues attacking (although it may have chosen to
   # use a different move in disobedience), or false if attack stops.
@@ -112,8 +124,7 @@ class Battle::Battler
     return true if !@battle.pbOwnedByPlayer?(@index)
     disobedient = false
     # Pokémon may be disobedient; calculate if it is
-    badge_level = 10 * (@battle.pbPlayer.badge_count + 1)
-    badge_level = GameData::GrowthRate.max_level if @battle.pbPlayer.badge_count >= 8
+    badge_level = pbMaxLevelBadgeObedience
     if Settings::ANY_HIGH_LEVEL_POKEMON_CAN_DISOBEY ||
        (Settings::FOREIGN_HIGH_LEVEL_POKEMON_CAN_DISOBEY && @pokemon.foreign?(@battle.pbPlayer))
       if @level > badge_level

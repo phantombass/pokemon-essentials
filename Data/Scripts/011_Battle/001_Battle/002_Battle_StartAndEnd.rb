@@ -359,7 +359,7 @@ class Battle
   #-----------------------------------------------------------------------------
 
   def pbGainMoney
-    return if !@internalBattle || !@moneyGain
+    return if !@internalBattle || @rules[:no_money_gain]
     # Money rewarded from opposing trainers
     if trainerBattle?
       tMoney = 0
@@ -391,7 +391,7 @@ class Battle
   end
 
   def pbLoseMoney
-    return if !@internalBattle || !@moneyGain
+    return if !@internalBattle || @rules[:no_money_gain]
     return if $game_switches[Settings::NO_MONEY_LOSS]
     maxLevel = pbMaxLevelInTeam(0, 0)   # Player's Pokémon only, not partner's
     multiplier = [8, 16, 24, 36, 48, 64, 80, 100, 120]
@@ -466,7 +466,7 @@ class Battle
         end
         # Lose money from losing a battle
         pbLoseMoney
-        pbDisplayPaused(_INTL("You blacked out!")) if !@canLose && pbPlayerBattlerCount == 0
+        pbDisplayPaused(_INTL("You blacked out!")) if !@rules[:continue_if_lose] && pbPlayerBattlerCount == 0
       elsif @decision == Outcome::LOSE   # Lost in a Battle Frontier battle
         if @opponent
           @opponent.each_with_index do |trainer, i|

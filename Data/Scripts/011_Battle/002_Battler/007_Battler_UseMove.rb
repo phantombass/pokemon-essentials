@@ -10,7 +10,7 @@ class Battle::Battler
     return false if fainted?
     # Wild roaming Pokémon always flee if possible
     if tryFlee && wild? &&
-       @battle.rules["alwaysflee"] && @battle.pbCanRun?(@index)
+       @battle.rules[:roamer_flees] && @battle.pbCanRun?(@index)
       pbBeginTurn(choice)
       pbSEPlay("Battle flee")
       @battle.pbDisplay(_INTL("{1} fled from battle!", pbThis))

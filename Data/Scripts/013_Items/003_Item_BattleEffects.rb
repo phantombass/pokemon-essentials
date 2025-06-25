@@ -17,7 +17,7 @@ ItemHandlers::CanUseInBattle.add(:POKEDOLL, proc { |item, pokemon, battler, move
     end
     next false
   end
-  if !battle.canRun
+  if battle.rules[:cannot_run]
     scene.pbDisplay(_INTL("You can't escape!")) if showMessages
     next false
   end
@@ -33,7 +33,7 @@ ItemHandlers::CanUseInBattle.addIf(:poke_balls,
       scene.pbDisplay(_INTL("There is no room left in the PC!")) if showMessages
       next false
     end
-    if battle.disablePokeBalls
+    if battle.rules[:disable_poke_balls]
       scene.pbDisplay(_INTL("You can't throw a Poké Ball!")) if showMessages
       next false
     end

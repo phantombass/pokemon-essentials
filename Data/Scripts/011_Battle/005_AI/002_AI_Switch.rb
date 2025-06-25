@@ -6,7 +6,7 @@ class Battle::AI
   # if the only moves known are bad ones (the latter forces a switch if
   # possible). Also aliased by the Battle Palace and Battle Arena.
   def pbChooseToSwitchOut(terrible_moves = false)
-    return false if !@battle.canSwitch   # Battle rule
+    return false if @battle.rules[:cannot_switch]
     return false if @user.wild?
     return false if !@battle.pbCanSwitchOut?(@user.index)
     # Don't switch if all foes are unable to do anything, e.g. resting after
