@@ -39,7 +39,7 @@ class Game_Temp
     when "cannotswitch"           then rules[:cannot_switch]          = true
     when "roamerflees"            then rules[:roamer_flees]           = true
     when "noexp"                  then rules[:no_exp_gain]            = true
-    when "nomoney"                then rules[:no_money_gain]          = false
+    when "nomoney"                then rules[:no_money_gain]          = true
     when "disablepokeballs"       then rules[:disable_poke_balls]     = true
     when "certaincapture"         then rules[:certain_capture]        = true
     when "forcecatchintoparty"    then rules[:force_catch_into_party] = true
