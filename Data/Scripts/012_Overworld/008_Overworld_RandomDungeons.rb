@@ -1087,6 +1087,7 @@ EventHandlers.add(:on_game_map_setup, :random_dungeon,
           event_height = $~[2].to_i
         end
         tile = dungeon.get_random_room_tile(occupied_tiles, event_width, event_height)
+        # TODO: next if tile is water or not passable.
         failed = true if !tile
         break if failed
         event.x = tile[0]

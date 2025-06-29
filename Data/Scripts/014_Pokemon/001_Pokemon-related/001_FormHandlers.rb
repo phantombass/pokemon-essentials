@@ -493,7 +493,7 @@ MultipleForms.register(:ZYGARDE, {
 
 MultipleForms.register(:HOOPA, {
   "getForm" => proc { |pkmn|
-    if !pkmn.time_form_set ||
+    if pkmn.time_form_set &&
        pbGetTimeNow.to_i > pkmn.time_form_set.to_i + (60 * 60 * 24 * 3)   # 3 days
       next 0
     end

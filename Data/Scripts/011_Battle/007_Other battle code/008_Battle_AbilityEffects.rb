@@ -1,3 +1,6 @@
+# TODO: Check queries of whether the move being used is physical/special, and
+#       decide whether a check for Psyshock should also apply (i.e. it modifies
+#       the target's defence).
 #===============================================================================
 #
 #===============================================================================
@@ -814,6 +817,10 @@ Battle::AbilityEffects::StatLossImmunity.add(:KEENEYE,
 
 Battle::AbilityEffects::StatLossImmunity.copy(:KEENEYE, :MINDSEYE)
 
+if Settings::MECHANICS_GENERATION >= 9
+  Battle::AbilityEffects::StatLossImmunity.copy(:KEENEYE, :ILLUMINATE)
+end
+
 #===============================================================================
 # StatLossImmunityNonIgnorable handlers
 #===============================================================================
@@ -1207,6 +1214,10 @@ Battle::AbilityEffects::AccuracyCalcFromUser.add(:KEENEYE,
   }
 )
 
+if Settings::MECHANICS_GENERATION >= 9
+  Battle::AbilityEffects::AccuracyCalcFromUser.copy(:KEENEYE, :ILLUMINATE)
+end
+
 Battle::AbilityEffects::AccuracyCalcFromUser.add(:NOGUARD,
   proc { |ability, mods, user, target, move, type|
     mods[:base_accuracy] = 0
@@ -1554,7 +1565,7 @@ Battle::AbilityEffects::DamageCalcFromUser.add(:TORRENT,
 
 Battle::AbilityEffects::DamageCalcFromUser.add(:TOUGHCLAWS,
   proc { |ability, user, target, move, mults, power, type|
-    mults[:power_multiplier] *= 4 / 3.0 if move.pbContactMove?(user)
+    mults[:power_multiplier] *= 1.3 if move.pbContactMove?(user)
   }
 )
 
@@ -1653,7 +1664,9 @@ Battle::AbilityEffects::DamageCalcFromTarget.add(:FURCOAT,
 
 Battle::AbilityEffects::DamageCalcFromTarget.add(:GRASSPELT,
   proc { |ability, user, target, move, mults, power, type|
-    mults[:defense_multiplier] *= 1.5 if user.battle.field.terrain == :Grassy
+    mults[:defense_multiplier] *= 1.5 if (move.physicalMove? ||
+                                         move.function_code == "UseTargetDefenseInsteadOfTargetSpDef") &&   # Psyshock
+                                         user.battle.field.terrain == :Grassy
   }
 )
 
@@ -1671,7 +1684,8 @@ Battle::AbilityEffects::DamageCalcFromTarget.add(:ICESCALES,
 
 Battle::AbilityEffects::DamageCalcFromTarget.add(:MARVELSCALE,
   proc { |ability, user, target, move, mults, power, type|
-    if target.pbHasAnyStatus? && move.physicalMove?
+    if target.pbHasAnyStatus? &&
+       (move.physicalMove? || move.function_code == "UseTargetDefenseInsteadOfTargetSpDef")   # Psyshock
       mults[:defense_multiplier] *= 1.5
     end
   }
@@ -2729,6 +2743,7 @@ Battle::AbilityEffects::TrappingByTarget.add(:ARENATRAP,
 
 Battle::AbilityEffects::TrappingByTarget.add(:MAGNETPULL,
   proc { |ability, switcher, bearer, battle|
+    # TODO: This should only apply if switcher is near to bearer.
     next true if switcher.pbHasType?(:STEEL)
   }
 )
@@ -3275,6 +3290,7 @@ Battle::AbilityEffects::OnSwitchOut.add(:MAGMAARMOR,
 
 Battle::AbilityEffects::OnSwitchOut.add(:NATURALCURE,
   proc { |ability, battler, endOfBattle|
+    next if Settings::MECHANICS_GENERATION >= 8 && endOfBattle
     PBDebug.log("[Ability triggered] #{battler.pbThis}'s #{battler.abilityName}")
     battler.status = :NONE
   }

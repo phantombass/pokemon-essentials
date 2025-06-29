@@ -47,10 +47,18 @@ module Compiler
     :compile        => proc { import_new_maps }
   }
 
+  @@categories[:create_missing_map_metadata] = {
+    :should_compile => proc { |compiling| next true },
+    :header_text    => proc { next _INTL("Creating map metadata for maps without it") },
+    :skipped_text   => proc { next _INTL("None found") },
+    :compile        => proc { create_missing_map_metadata }
+  }
+
   @@categories[:map_data] = {
-    :header_text  => proc { next _INTL("Modifying map data") },
-    :skipped_text => proc { next _INTL("Not modified") },
-    :compile      => proc { compile_trainer_events }
+    :should_compile => proc { |compiling| next true },
+    :header_text    => proc { next _INTL("Modifying map events") },
+    :skipped_text   => proc { next _INTL("Not modified") },
+    :compile        => proc { compile_trainer_events }
   }
 
   @@categories[:messages] = {
@@ -126,6 +134,31 @@ module Compiler
       Console.echo_warn(_INTL("RMXP data was altered. Close RMXP now without saving to ensure changes are applied."))
     end
     return imported
+  end
+
+  #-----------------------------------------------------------------------------
+  # Add new map metadata entries for maps that don't have it.
+  #-----------------------------------------------------------------------------
+  def create_missing_map_metadata
+    GameData.load_all
+    map_infos = pbLoadMapInfos
+    added_count = 0
+    map_infos.each_key do |map_id|
+      next if !map_infos[map_id]
+      next if GameData::MapMetadata.exists?(map_id)
+      data_hash = {
+        :id        => map_id,
+        :real_name => map_infos[map_id].name,
+      }
+      GameData::MapMetadata.register(data_hash)
+      added_count += 1
+    end
+    if added_count == 0
+      Console.echoln_li(@@categories[:create_missing_map_metadata][:skipped_text].call)
+      return
+    end
+    Console.echoln_li(_INTL("Created metadata for {1} map(s).", new_maps.length))
+    Compiler.write_map_metadata
   end
 
   #-----------------------------------------------------------------------------
