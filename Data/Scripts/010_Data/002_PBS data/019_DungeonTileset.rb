@@ -165,10 +165,14 @@ module GameData
       return @tile_type_ids.include?(deco) && @tile_type_ids[deco].length > 0
     end
 
-    def get_random_tile_of_type(tile_type, dungeon, x, y, layer)
+    def tiles_of_type_count(tile_type)
+      return @tile_type_ids[tile_type]&.length || 0
+    end
+
+    def get_random_tile_of_type(tile_type, dungeon, x, y, layer, version = -1)
       tiles = @tile_type_ids[tile_type]
       return 0 if !tiles || tiles.empty?
-      ret = tiles.sample[0]
+      ret = (version >= 0) ? tiles[version][0] : tiles.sample[0]
       if ret < 384   # Autotile
         nb = TileDrawingHelper.tableNeighbors(dungeon, x, y, layer)
         variant = TileDrawingHelper::NEIGHBORS_TO_AUTOTILE_INDEX[nb]

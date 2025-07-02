@@ -248,7 +248,7 @@ class Game_Map
 
   # Returns whether the position x,y is fully passable (there is no blocking
   # event there, and the tile is fully passable in all directions).
-  def passableStrict?(x, y, d, self_event = nil)
+  def passableStrict?(x, y, dir, self_event = nil)
     return false if !valid?(x, y)
     events.each_value do |event|
       next if event == self_event || event.tile_id < 0 || event.through
