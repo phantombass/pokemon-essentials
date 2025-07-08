@@ -149,6 +149,10 @@ module Settings
   # from the Pokémon's level-up moveset of the same or a lower level than the
   # Pokémon can always be relearned.
   MOVE_RELEARNER_CAN_TEACH_MORE_MOVES = (MECHANICS_GENERATION >= 6)
+  # Whether the Move Relearner can teach all moves in the Pokémon's moveset
+  # (true) or only the moves normally learned at/below the Pokémon's current
+  # level (false).
+  MOVE_RELEARNER_CAN_TEACH_ANY_LEVEL_MOVES = (MECHANICS_GENERATION == 7)
 
   #-----------------------------------------------------------------------------
   # Breeding Pokémon and Day Care

@@ -279,7 +279,8 @@ class UI::MoveReminder < UI::BaseScreen
     @moves = []
     return if !@pokemon || @pokemon.egg? || @pokemon.shadowPokemon?
     @pokemon.getMoveList.each do |move|
-      next if move[0] > @pokemon.level || @pokemon.hasMove?(move[1])
+      next if @pokemon.hasMove?(move[1])
+      next if !Settings::MOVE_RELEARNER_CAN_TEACH_ANY_LEVEL_MOVES && move[0] > @pokemon.level
       @moves.push(move[1]) if !@moves.include?(move[1])
     end
     if Settings::MOVE_RELEARNER_CAN_TEACH_MORE_MOVES && @pokemon.first_moves

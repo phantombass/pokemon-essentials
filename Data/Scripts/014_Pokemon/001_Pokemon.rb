@@ -641,7 +641,7 @@ class Pokemon
     # Find all level-up moves that self could have learned
     moveset = self.getMoveList
     knowable_moves = []
-    moveset.each { |m| knowable_moves.push(m[1]) if m[0] <= this_level }
+    moveset.each { |m| knowable_moves.push(m[1]) if m[0] >= 0 && m[0] <= this_level }
     # Remove duplicates (retaining the latest copy of each move)
     knowable_moves = knowable_moves.reverse
     knowable_moves |= []

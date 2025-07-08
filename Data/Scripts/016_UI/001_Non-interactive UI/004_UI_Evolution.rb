@@ -228,7 +228,7 @@ class PokemonEvolutionScene
     moves_to_learn = []
     movelist = @pokemon.getMoveList
     movelist.each do |i|
-      next if i[0] != 0 && i[0] != @pokemon.level   # 0 is "learn upon evolution"
+      next if i[0] <= 0 || i[0] != @pokemon.level   # 0 is "learn upon evolution"
       moves_to_learn.push(i[1])
     end
     # Show Pokédex entry for new species if it hasn't been owned before

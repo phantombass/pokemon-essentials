@@ -80,7 +80,7 @@ module GameData
       ret["Happiness"]        = [:happiness,          "u"]
       ret["Abilities"]        = [:abilities,          "*e", :Ability]
       ret["HiddenAbilities"]  = [:hidden_abilities,   "*e", :Ability]
-      ret["Moves"]            = [:moves,              "*ue", nil, :Move]
+      ret["Moves"]            = [:moves,              "*ie", nil, :Move]
       ret["TutorMoves"]       = [:tutor_moves,        "*e", :Move]
       ret["EggMoves"]         = [:egg_moves,          "*e", :Move]
       ret["EggGroups"]        = [:egg_groups,         "*e", :EggGroup]
