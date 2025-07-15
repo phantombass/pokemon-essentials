@@ -504,6 +504,14 @@ class Battle::Move::TwoTurnAttackInvulnerableInSkyTargetCannotAct < Battle::Move
     return super
   end
 
+  def pbInitialEffect(user, targets, hitNum)
+    failed = true
+    targets.each do |target|
+      failed = false if !target.damageState.unaffected
+    end
+    super if !failed
+  end
+
   def pbChargingTurnMessage(user, targets)
     @battle.pbDisplay(_INTL("{1} took {2} into the sky!", user.pbThis, targets[0].pbThis(true)))
   end

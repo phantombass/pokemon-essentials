@@ -316,13 +316,15 @@ class Battle::Battler
     show_message = move.pbShowFailMessages?(targets)
     typeMod = move.pbCalcTypeMod(move.calcType, user, target)
     target.damageState.typeMod = typeMod
-    # Two-turn attacks can't fail here in the charging turn
-    return true if user.effects[PBEffects::TwoTurnAttack]
-    # Semi-invulnerable target
-    if !pbSuccessCheckSemiInvulnerable(move, user, target)
-      PBDebug.log("[Move failed] Target is semi-invulnerable")
-      target.damageState.invulnerable = true
-      return true   # Succeeds here but fails in def pbSuccessCheckPerHit
+    if !user.inTwoTurnAttack?("TwoTurnAttackInvulnerableInSkyTargetCannotAct")
+      # Two-turn attacks can't fail here in the charging turn
+      return true if user.effects[PBEffects::TwoTurnAttack]
+      # Semi-invulnerable target
+      if !pbSuccessCheckSemiInvulnerable(move, user, target)
+        PBDebug.log("[Move failed] Target is semi-invulnerable")
+        target.damageState.invulnerable = true
+        return true   # Succeeds here but fails in def pbSuccessCheckPerHit
+      end
     end
     # Move-specific failures
     if move.pbFailsAgainstTarget?(user, target, show_message)
@@ -477,6 +479,8 @@ class Battle::Battler
         end
       end
     end
+    # Stop checking for general failure conditions in the first turn of Sky Drop
+    return true if user.inTwoTurnAttack?("TwoTurnAttackInvulnerableInSkyTargetCannotAct")
     # Magic Coat/Magic Bounce
     if move.statusMove? && move.canMagicCoat? && !target.semiInvulnerable? && target.opposes?(user)
       if target.effects[PBEffects::MagicCoat]
@@ -499,7 +503,7 @@ class Battle::Battler
       @battle.pbDisplay(_INTL("It doesn't affect {1}...", target.pbThis(true))) if show_message
       return false
     end
-    # Dark-type immunity to moves made faster by Prankster
+    # Dark-type immunity to status moves made faster by Prankster
     if Settings::MECHANICS_GENERATION >= 7 && user.effects[PBEffects::Prankster] &&
        target.pbHasType?(:DARK) && target.opposes?(user)
       PBDebug.log("[Target immune] #{target.pbThis} is Dark-type and immune to Prankster-boosted moves")
@@ -587,21 +591,17 @@ class Battle::Battler
     # Helping Hand
     return true if move.function_code == "PowerUpAllyMove"
     # Semi-invulnerable moves
-    if target.effects[PBEffects::TwoTurnAttack]
-      if target.inTwoTurnAttack?("TwoTurnAttackInvulnerableInSky",
-                                 "TwoTurnAttackInvulnerableInSkyParalyzeTarget",
-                                 "TwoTurnAttackInvulnerableInSkyTargetCannotAct")
-        return move.hitsFlyingTargets?
-      elsif target.inTwoTurnAttack?("TwoTurnAttackInvulnerableUnderground")
-        return move.hitsDiggingTargets?
-      elsif target.inTwoTurnAttack?("TwoTurnAttackInvulnerableUnderwater")
-        return move.hitsDivingTargets?
-      elsif target.inTwoTurnAttack?("TwoTurnAttackInvulnerableRemoveProtections")
-        return false
-      end
-    end
-    if target.effects[PBEffects::SkyDrop] >= 0 &&
-       target.effects[PBEffects::SkyDrop] != user.index && !move.hitsFlyingTargets?
+    if target.inTwoTurnAttack?("TwoTurnAttackInvulnerableInSky",
+                               "TwoTurnAttackInvulnerableInSkyParalyzeTarget",
+                               "TwoTurnAttackInvulnerableInSkyTargetCannotAct")
+      return move.hitsFlyingTargets?
+    elsif target.effects[PBEffects::SkyDrop] >= 0 && target.effects[PBEffects::SkyDrop] != user.index
+      return move.hitsFlyingTargets?
+    elsif target.inTwoTurnAttack?("TwoTurnAttackInvulnerableUnderground")
+      return move.hitsDiggingTargets?
+    elsif target.inTwoTurnAttack?("TwoTurnAttackInvulnerableUnderwater")
+      return move.hitsDivingTargets?
+    elsif target.inTwoTurnAttack?("TwoTurnAttackInvulnerableRemoveProtections")
       return false
     end
     return true

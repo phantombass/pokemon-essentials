@@ -90,6 +90,9 @@ class Battle::Battler
     end
     # Cancel usage of most multi-turn moves
     @effects[PBEffects::TwoTurnAttack] = nil
+    @battle.allBattlers.each do |b|   # Other battlers no longer Sky Dropped by self
+      b.effects[PBEffects::SkyDrop] = -1 if b.effects[PBEffects::SkyDrop] == @index
+    end
     @effects[PBEffects::Rollout]       = 0
     @effects[PBEffects::Outrage]       = 0
     @effects[PBEffects::Uproar]        = 0
