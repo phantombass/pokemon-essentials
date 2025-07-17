@@ -142,6 +142,7 @@ MenuHandlers.add(:debug_menu, :edit_ability_descriptions, {
 #
 #===============================================================================
 class DescriptionEditorMove
+  UI_FOLDER         = "Graphics/UI/"
   BG_PAGE = "moves_detailed"
 
   def initialize
@@ -149,13 +150,23 @@ class DescriptionEditorMove
     @viewport.z = 99999 + 100
     @background = IconSprite.new(0, 0, @viewport)
     @background.setBitmap("Graphics/UI/Summary/bg_#{BG_PAGE}")
+
+    @bitmaps = {}
+    @bitmaps[:types]       = AnimatedBitmap.new(UI_FOLDER + _INTL("types"))
+
     @overlay = BitmapSprite.new(Graphics.width, Graphics.height, @viewport)
     @overlay.z = 1
+    @overlay.add_text_theme(:default, Color.new(64, 64, 64), Color.new(176, 176, 176))
+    @overlay.add_text_theme(:black, Color.new(64, 64, 64), Color.new(176, 176, 176))
+    @overlay.add_text_theme(:white, Color.new(248, 248, 248), Color.new(104, 104, 104))
     pbSetSystemFont(@overlay.bitmap)
+
     @text_box = UIControls::TextBox.new(Graphics.width, 24, @viewport)
+    @text_box.box_width = Graphics.width
     @text_box.y = 4
     @text_box.z = 2
     @text_box.set_interactive_rects
+
     @move_index = -1
     @move_keys = GameData::Move.keys
     change_move_index(1)
@@ -167,6 +178,8 @@ class DescriptionEditorMove
     @background.dispose
     @overlay.dispose
     @viewport.dispose
+    @bitmaps.each_pair { |key, bitmap| bitmap&.dispose if !bitmap.disposed? }
+    @bitmaps.clear
     @disposed = true
   end
 
@@ -184,6 +197,9 @@ class DescriptionEditorMove
     refresh_overlay
   end
 
+  MOVE_BOX_X = UI::PokemonSummaryVisuals::MOVE_LIST_X_DETAILED
+  MOVE_BOX_Y = UI::PokemonSummaryVisuals::MOVE_LIST_Y
+
   def refresh_overlay
     @overlay.bitmap.clear
     @overlay.bitmap.fill_rect(0, 0, Graphics.width, 32, Color.new(255, 255, 255))
@@ -191,34 +207,51 @@ class DescriptionEditorMove
     shadow = Color.new(176, 176, 176)
     moveBase   = Color.new(64, 64, 64)
     moveShadow = Color.new(176, 176, 176)
-    yPos = 104
-    textpos = [
-      [_INTL("CATEGORY"), 20, 128 - 32, :left, base, shadow],
-      [_INTL("POWER"), 20, 160 - 32, :left, base, shadow],
-      [_INTL("ACCURACY"), 20, 192 - 32, :left, base, shadow],
-      [_INTL("PP"), 342, yPos + 32, :left, moveBase, moveShadow],
-      [@move.name, 316, yPos, :left, moveBase, moveShadow],
-      [sprintf("%d", @move.total_pp), 460, yPos + 32, :right, moveBase, moveShadow],
-      [sprintf("%d/%d", @move_index + 1, @move_keys.length), 383, yPos + 64, :center, moveBase, moveShadow],
-    ]
-    # Write power and accuracy values for selected move
-    case @move.power
-    when 0 then textpos.push(["---", 216, 160 - 32, :right, base, shadow])   # Status move
-    when 1 then textpos.push(["???", 216, 160 - 32, :right, base, shadow])   # Variable power move
-    else        textpos.push([@move.power.to_s, 216, 160 - 32, :right, base, shadow])
+    x = MOVE_BOX_X
+    y = MOVE_BOX_Y
+    pp_numbers_x = x + 234
+    # Draw move name
+    move_name = @move.name
+    @overlay.draw_themed_text(move_name, x + 8, y + 6, :left, :black)
+    # Draw move type icon
+    type_number = GameData::Type.get(@move.display_type(@pokemon)).icon_position
+    @overlay.draw_image(@bitmaps[:types], x + 8, y + 32,
+               0, type_number * GameData::Type::ICON_SIZE[1], *GameData::Type::ICON_SIZE)
+    # Draw move category
+    @overlay.draw_image(UI_FOLDER + "category", x + 74, y + 32,
+               0, @move.category * GameData::Move::CATEGORY_ICON_SIZE[1], *GameData::Move::CATEGORY_ICON_SIZE)
+    # Draw PP text
+    if @move.total_pp > 0
+      pp_text_x = x + 144
+      @overlay.draw_themed_text(_INTL("PP"), pp_text_x, y + 38, :left, :black)
+      pp_text_theme = :black
+      @overlay.draw_themed_text(sprintf("%d", @move.total_pp), pp_numbers_x, y + 38, :right, pp_text_theme)
     end
-    if @move.accuracy == 0
-      textpos.push(["---", 216, 192 - 32, :right, base, shadow])
+
+
+    # Power
+    @overlay.draw_themed_text(_INTL("POWER"), 20, 128, :left, :white)
+    power_text = @move.power
+    power_text = "---" if power_text == 0   # Status move
+    power_text = "???" if power_text == 1   # Variable power move
+    @overlay.draw_themed_text(power_text.to_s, 222, 128, :right, :black)
+    # Accuracy
+    @overlay.draw_themed_text(_INTL("ACCURACY"), 20, 160, :left, :white)
+    accuracy = @move.accuracy
+    if accuracy == 0
+      @overlay.draw_themed_text("---", 222, 160, :right, :black)
     else
-      textpos.push(["#{@move.accuracy}%", 216 + @overlay.bitmap.text_size("%").width, 192 - 32, :right, base, shadow])
+      @overlay.draw_themed_text(accuracy.to_s, 222, 160, :right, :black)
+      @overlay.draw_themed_text("%", 222, 160, :left, :black)
     end
-    imagepos = []
-    type_number = GameData::Type.get(@move.type).icon_position
-    imagepos.push([_INTL("Graphics/UI/types"), 248, yPos - 4, 0, type_number * GameData::Type::ICON_SIZE[1], *GameData::Type::ICON_SIZE])
-    imagepos.push(["Graphics/UI/category", 166, 124 - 32, 0, @move.category * CATEGORY_ICON_SIZE[1], *CATEGORY_ICON_SIZE])
-    pbDrawTextPositions(@overlay.bitmap, textpos)
-    pbDrawImagePositions(@overlay.bitmap, imagepos)
-    drawTextEx(@overlay.bitmap, 4, 224 - 32, 230, 5 + 1, @text_box.value, moveBase, moveShadow)
+    # Description
+    drawTextEx(@overlay.bitmap, 4, 192, 246, 6,
+               @text_box.value, Color.new(64, 64, 64), Color.new(176, 176, 176))
+
+
+    # Move index
+    pp_text_theme = :black
+    @overlay.draw_themed_text(sprintf("%d/%d", @move_index + 1, @move_keys.length), pp_numbers_x, y + 38 + 64, :right, pp_text_theme)
   end
 
   def update
