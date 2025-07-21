@@ -636,6 +636,11 @@ class Battle::Battler
     targets = move.pbDesignateTargetsForHit(targets, hitNum)   # For Dragon Darts
     targets.each { |b| b.damageState.resetPerHit }
     #---------------------------------------------------------------------------
+    # Trigger abilities before the hit (they can alter b.damageState.typeMod)
+    targets.each do |b|
+      next if !b.abilityActive?
+      Battle::AbilityEffects.triggerOnTargetedForHit(b.ability, user, b, move, hitNum, @battle)
+    end
     # Calculate damage to deal
     if move.pbDamagingMove?
       targets.each do |b|

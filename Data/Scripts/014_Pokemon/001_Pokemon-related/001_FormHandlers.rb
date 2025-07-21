@@ -775,6 +775,14 @@ MultipleForms.register(:SQUAWKABILLY, {
   }
 })
 
+MultipleForms.register(:PALAFIN, {
+  "getFormOnLeavingBattle" => proc { |pkmn, battle, usedInBattle, endBattle|
+    next 0 if endBattle
+    next 1 if pkmn.able? && usedInBattle && !endBattle   # Switched out while unfainted
+    next pkmn.form
+  }
+})
+
 MultipleForms.register(:TATSUGIRI, {
   "getFormOnCreation" => proc { |pkmn|
     next rand(3)
@@ -799,6 +807,12 @@ MultipleForms.register(:OGERPON, {
     next 2 if pkmn.hasItem?(:HEARTHFLAMEMASK)
     next 3 if pkmn.hasItem?(:CORNERSTONEMASK)
     next 0
+  }
+})
+
+MultipleForms.register(:TERAPAGOS, {
+  "getFormOnLeavingBattle" => proc { |pkmn, battle, usedInBattle, endBattle|
+    next 0 if endBattle || (pkmn.fainted? && pkmn.form >= 2)
   }
 })
 

@@ -192,6 +192,7 @@ class Battle::Move::TargetStatDownMove < Battle::Move
   end
 
   def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
     return if target.damageState.substitute
     return if !target.pbCanLowerStatStage?(@statDown[0], user, self)
     target.pbLowerStatStage(@statDown[0], @statDown[1], user)
@@ -283,7 +284,9 @@ class Battle::Move::TargetMultiStatDownMove < Battle::Move
   end
 
   def pbAdditionalEffect(user, target)
-    pbLowerTargetMultipleStats(user, target) if !target.damageState.substitute
+    return if !target.affectedByAdditionalEffects?
+    return if target.damageState.substitute
+    pbLowerTargetMultipleStats(user, target)
   end
 end
 

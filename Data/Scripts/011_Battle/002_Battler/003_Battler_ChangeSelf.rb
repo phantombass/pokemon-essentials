@@ -296,6 +296,12 @@ class Battle::Battler
       newForm = (@form + 1) % 2
       pbChangeForm(newForm, nil)
     end
+    # Terapagos - Tera Shift
+    if isSpecies?(:TERAPAGOS) && self.ability == :TERASHIFT && @form == 0
+      @battle.pbShowAbilitySplash(self, true)
+      @battle.pbHideAbilitySplash(self)
+      pbChangeForm(1, _INTL("{1} transformed!", pbThis))
+    end
   end
 
   def pbTransform(target)

@@ -45,6 +45,7 @@ module Battle::AbilityEffects
   CriticalCalcFromUser             = AbilityHandlerHash.new
   CriticalCalcFromTarget           = AbilityHandlerHash.new
   # Upon a move hitting a target
+  OnTargetedForHit                 = AbilityHandlerHash.new   # Tera Shell
   OnBeingHit                       = AbilityHandlerHash.new
   OnDealingHit                     = AbilityHandlerHash.new   # Poison Touch
   # Abilities that trigger at the end of using a move
@@ -217,6 +218,10 @@ module Battle::AbilityEffects
   end
 
   #-----------------------------------------------------------------------------
+
+  def self.triggerOnTargetedForHit(ability, user, target, move, hit_num, battle)
+    OnTargetedForHit.trigger(ability, user, target, move, hit_num, battle)
+  end
 
   def self.triggerOnBeingHit(ability, user, target, move, battle)
     OnBeingHit.trigger(ability, user, target, move, battle)
@@ -1786,6 +1791,21 @@ Battle::AbilityEffects::CriticalCalcFromTarget.add(:BATTLEARMOR,
 Battle::AbilityEffects::CriticalCalcFromTarget.copy(:BATTLEARMOR, :SHELLARMOR)
 
 #===============================================================================
+# OnTargetedForHit handlers
+#===============================================================================
+Battle::AbilityEffects::OnTargetedForHit.add(:TERASHELL,
+  proc { |ability, user, target, move, hit_num, battle|
+    next if !target.isSpecies?(:TERAPAGOS) || target.form != 1 || target.hp < target.totalhp
+    next if hit_num != 0 || target.beingMoldBroken?
+    next if !move.pbDamagingMove? || move.is_a?(Battle::Move::FixedDamageMove)
+    next if Effectiveness.not_very_effective?(target.damageState.typeMod) ||
+            Effectiveness.ineffective?(target.damageState.typeMod)
+    target.damageState.typeMod = Effectiveness::NOT_VERY_EFFECTIVE_MULTIPLIER
+    battle.pbDisplay(_INTL("{1} made its shell gleam! It's distorting type matchups!", target.pbThis))
+  }
+)
+
+#===============================================================================
 # OnBeingHit handlers
 #===============================================================================
 
@@ -2225,6 +2245,7 @@ Battle::AbilityEffects::OnBeingHit.add(:WEAKARMOR,
 Battle::AbilityEffects::OnDealingHit.add(:POISONTOUCH,
   proc { |ability, user, target, move, battle|
     next if !move.pbContactMove?(user)
+    next if !target.affectedByAdditionalEffects?
     next if battle.pbRandom(100) >= 30
     battle.pbShowAbilitySplash(user)
     if target.hasActiveAbility?(:SHIELDDUST) && !target.being_mold_broken?
@@ -2246,6 +2267,7 @@ Battle::AbilityEffects::OnDealingHit.add(:POISONTOUCH,
 
 Battle::AbilityEffects::OnDealingHit.add(:TOXICCHAIN,
   proc { |ability, user, target, move, battle|
+    next if !target.affectedByAdditionalEffects?
     next if battle.pbRandom(100) >= 30
     battle.pbShowAbilitySplash(user)
     if target.hasActiveAbility?(:SHIELDDUST) && !target.being_mold_broken?

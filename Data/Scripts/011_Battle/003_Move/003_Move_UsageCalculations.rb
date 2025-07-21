@@ -533,6 +533,7 @@ class Battle::Move
   #       not here.
   def pbFlinchChance(user, target)
     return 0 if flinchingMove?
+    return 0 if !target.affectedByAdditionalEffects?
     return 0 if target.hasActiveAbility?(:SHIELDDUST) && !target.beingMoldBroken?
     ret = 0
     if user.hasActiveAbility?(:STENCH, true) ||

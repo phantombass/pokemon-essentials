@@ -377,21 +377,42 @@ class Battle::Battler
       # Form-changing abilities
       :BATTLEBOND,
       :DISGUISE,
+      :EMBODYASPECTATTACK,
+      :EMBODYASPECTDEFENSE,
+      :EMBODYASPECTSPDEF,
+      :EMBODYASPECTSPEED,
 #      :FLOWERGIFT,                                        # This can be stopped
 #      :FORECAST,                                          # This can be stopped
       :GULPMISSILE,
+#      :HUNGERSWITCH,                                      # This can be stopped
       :ICEFACE,
       :MULTITYPE,
       :POWERCONSTRUCT,
       :SCHOOLING,
       :SHIELDSDOWN,
       :STANCECHANGE,
+      :TERASHIFT,
       :ZENMODE,
+      :ZEROTOHERO,
+      # Appearance-changing abilities
+#      :ILLUSION,                                          # This can be stopped
+#      :IMPOSTER,                                          # This can be stopped
       # Abilities intended to be inherent properties of a certain species
       :ASONECHILLINGNEIGH,
       :ASONEGRIMNEIGH,
       :COMATOSE,
+      :COMMANDER,
+      # TODO: Poison Puppeteer can't be lost but can be negated by Gastro Acid.
+      :POISONPUPPETEER,
+#      :POWEROFALCHEMY,                                    # This can be stopped
+#      :PROTOSYNTHESIS,                                    # This can be stopped
+#      :QUARKDRIVE,                                        # This can be stopped
+#      :RECEIVER,                                          # This can be stopped
       :RKSSYSTEM
+#      :TERAFORMZERO,                                      # This can be stopped
+#      :TERASHELL,                                         # This can be stopped
+#      :TRACE,                                             # This can be stopped
+#      :WONDERGUARD                                        # This can be stopped
     ]
     return true if ability_blacklist.include?(abil.id)
     return true if hasActiveItem?(:ABILITYSHIELD)
@@ -407,16 +428,23 @@ class Battle::Battler
       # Form-changing abilities
       :BATTLEBOND,
       :DISGUISE,
+      :EMBODYASPECTATTACK,
+      :EMBODYASPECTDEFENSE,
+      :EMBODYASPECTSPDEF,
+      :EMBODYASPECTSPEED,
       :FLOWERGIFT,
       :FORECAST,
       :GULPMISSILE,
+      :HUNGERSWITCH,
       :ICEFACE,
       :MULTITYPE,
       :POWERCONSTRUCT,
       :SCHOOLING,
       :SHIELDSDOWN,
       :STANCECHANGE,
+      :TERASHIFT,
       :ZENMODE,
+      :ZEROTOHERO,
       # Appearance-changing abilities
       :ILLUSION,
       :IMPOSTER,
@@ -424,7 +452,17 @@ class Battle::Battler
       :ASONECHILLINGNEIGH,
       :ASONEGRIMNEIGH,
       :COMATOSE,
+      :COMMANDER,
+      :POISONPUPPETEER,
+      :POWEROFALCHEMY,
+      :PROTOSYNTHESIS,
+      :QUARKDRIVE,
+      :RECEIVER,
       :RKSSYSTEM,
+      :TERAFORMZERO,
+      :TERASHELL,
+      :TRACE,
+      :WONDERGUARD,
       # Abilities that can't be negated
       :NEUTRALIZINGGAS
     ]
@@ -525,6 +563,11 @@ class Battle::Battler
     return true if @effects[PBEffects::MagnetRise] > 0
     return true if @effects[PBEffects::Telekinesis] > 0
     return false
+  end
+
+  def affectedByAdditionalEffects?
+    return false if hasActiveItem?(:COVERTCLOAK)
+    return true
   end
 
   def affectedByTerrain?

@@ -1175,6 +1175,7 @@ class Battle::Move::RecoilThirdOfDamageDealtParalyzeTarget < Battle::Move::Recoi
   end
 
   def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
     return if target.damageState.substitute
     target.pbParalyze(user) if target.pbCanParalyze?(user, false, self)
   end
@@ -1190,6 +1191,7 @@ class Battle::Move::RecoilThirdOfDamageDealtBurnTarget < Battle::Move::RecoilMov
   end
 
   def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
     return if target.damageState.substitute
     target.pbBurn(user) if target.pbCanBurn?(user, false, self)
   end

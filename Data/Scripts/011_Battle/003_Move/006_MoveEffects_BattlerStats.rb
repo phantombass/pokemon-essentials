@@ -947,6 +947,7 @@ class Battle::Move::RaiseTargetAttack1 < Battle::Move
   end
 
   def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
     return if !target.pbCanRaiseStatStage?(:ATTACK, user, self)
     target.pbRaiseStatStage(:ATTACK, 1, user)
   end
@@ -1210,6 +1211,7 @@ class Battle::Move::LowerTargetDefense1FlinchTarget < Battle::Move::TargetStatDo
   end
 
   def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
     return if target.damageState.substitute
     stat_chance = pbAdditionalEffectChance(user, target, 50)
     super if stat_chance > 0 && @battle.pbRandom(100) < stat_chance
@@ -2043,11 +2045,10 @@ end
 #===============================================================================
 class Battle::Move::ResetTargetStatStages < Battle::Move
   def pbEffectAgainstTarget(user, target)
-    if target.damageState.calcDamage > 0 && !target.damageState.substitute &&
-       target.hasAlteredStatStages?
-      target.pbResetStatStages
-      @battle.pbDisplay(_INTL("{1}'s stat changes were removed!", target.pbThis))
-    end
+    return if target.damageState.calcDamage == 0 || target.damageState.substitute
+    return if !target.hasAlteredStatStages?
+    target.pbResetStatStages
+    @battle.pbDisplay(_INTL("{1}'s stat changes were removed!", target.pbThis))
   end
 end
 

@@ -15,6 +15,7 @@ class Battle::Move::SleepTarget < Battle::Move
   end
 
   def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
     return if target.damageState.substitute
     target.pbSleep(user) if target.pbCanSleep?(user, false, self)
   end
@@ -91,6 +92,7 @@ class Battle::Move::PoisonTarget < Battle::Move
   end
 
   def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
     return if target.damageState.substitute
     target.pbPoison(user, nil, @toxic) if target.pbCanPoison?(user, false, self)
   end
@@ -195,6 +197,7 @@ class Battle::Move::ParalyzeTarget < Battle::Move
   end
 
   def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
     return if target.damageState.substitute
     target.pbParalyze(user) if target.pbCanParalyze?(user, false, self)
   end
@@ -249,6 +252,7 @@ class Battle::Move::ParalyzeFlinchTarget < Battle::Move
   def flinchingMove?; return true; end
 
   def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
     return if target.damageState.substitute
     chance = pbAdditionalEffectChance(user, target, 10)
     return if chance == 0
@@ -276,6 +280,7 @@ class Battle::Move::BurnTarget < Battle::Move
   end
 
   def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
     return if target.damageState.substitute
     target.pbBurn(user) if target.pbCanBurn?(user, false, self)
   end
@@ -308,6 +313,7 @@ class Battle::Move::BurnFlinchTarget < Battle::Move
   def flinchingMove?; return true; end
 
   def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
     return if target.damageState.substitute
     chance = pbAdditionalEffectChance(user, target, 10)
     return if chance == 0
@@ -335,6 +341,7 @@ class Battle::Move::FreezeTarget < Battle::Move
   end
 
   def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
     return if target.damageState.substitute
     target.pbFreeze(user) if target.pbCanFreeze?(user, false, self)
   end
@@ -367,6 +374,7 @@ class Battle::Move::FreezeFlinchTarget < Battle::Move
   def flinchingMove?; return true; end
 
   def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
     return if target.damageState.substitute
     chance = pbAdditionalEffectChance(user, target, 10)
     return if chance == 0
@@ -382,6 +390,7 @@ end
 #===============================================================================
 class Battle::Move::ParalyzeBurnOrFreezeTarget < Battle::Move
   def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
     return if target.damageState.substitute
     case @battle.pbRandom(3)
     when 0 then target.pbBurn(user) if target.pbCanBurn?(user, false, self)
@@ -396,6 +405,7 @@ end
 #===============================================================================
 class Battle::Move::PoisonParalyzeOrSleepTarget < Battle::Move
   def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
     return if target.damageState.substitute
     case @battle.pbRandom(3)
     when 0 then target.pbPoison(user) if target.pbCanPoison?(user, false, self)
@@ -572,6 +582,7 @@ end
 class Battle::Move::CureTargetBurn < Battle::Move
   def pbAdditionalEffect(user, target)
     return if target.fainted? || target.damageState.substitute
+    return if !target.affectedByAdditionalEffects?
     return if target.status != :BURN
     target.pbCureStatus
   end
@@ -610,6 +621,7 @@ class Battle::Move::FlinchTarget < Battle::Move
   end
 
   def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
     return if target.damageState.substitute
     target.pbFlinch(user)
   end
@@ -637,6 +649,26 @@ end
 class Battle::Move::FlinchTargetFailsIfNotUserFirstTurn < Battle::Move::FlinchTarget
   def pbMoveFailed?(user, targets)
     if user.turnCount > 1
+      @battle.pbDisplay(_INTL("But it failed!"))
+      return true
+    end
+    return false
+  end
+end
+
+#===============================================================================
+# Causes the target to flinch. Fails if the target is not about to use a
+# priority move this turn. (Upper Hand)
+#===============================================================================
+class Battle::Move::FlinchTargetFailsIfTargetNotUsingPriorityMove < Battle::Move::FlinchTarget
+  def pbMoveFailed?(user, targets)
+    failed = true
+    if !b.movedThisRound?
+      targets.each do |target|
+        failed = false if @battle.choices[target.index][4] > 0
+      end
+    end
+    if failed
       @battle.pbDisplay(_INTL("But it failed!"))
       return true
     end
@@ -677,6 +709,7 @@ class Battle::Move::ConfuseTarget < Battle::Move
   end
 
   def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
     return if target.damageState.substitute
     return if !target.pbCanConfuse?(user, false, self)
     target.pbConfuse
@@ -719,6 +752,16 @@ class Battle::Move::ConfuseTargetCrashDamageIfFails < Battle::Move::ConfuseTarge
 end
 
 #===============================================================================
+# Confuses the target if the target's stat(s) were raised earlier this turn.
+# (Alluring Voice)
+#===============================================================================
+class Battle::Move::ConfuseTargetIfTargetStatsRaisedThisTurn < Battle::Move::ConfuseTarget
+  def pbAdditionalEffect(user, target)
+    super if target.statsRaisedThisRound
+  end
+end
+
+#===============================================================================
 # Attracts the target. (Attract)
 #===============================================================================
 class Battle::Move::AttractTarget < Battle::Move
@@ -737,6 +780,7 @@ class Battle::Move::AttractTarget < Battle::Move
   end
 
   def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
     return if target.damageState.substitute
     target.pbAttract(user) if target.pbCanAttract?(user, false)
   end
@@ -1130,8 +1174,7 @@ class Battle::Move::SetUserAbilityToTargetAbility < Battle::Move
       @battle.pbDisplay(_INTL("But it failed!")) if show_message
       return true
     end
-    if target.ungainableAbility? ||
-       [:POWEROFALCHEMY, :RECEIVER, :TRACE, :WONDERGUARD].include?(target.ability_id)
+    if target.ungainableAbility?
       @battle.pbDisplay(_INTL("But it failed!")) if show_message
       return true
     end
@@ -1148,6 +1191,59 @@ class Battle::Move::SetUserAbilityToTargetAbility < Battle::Move
     @battle.pbHideAbilitySplash(user)
     user.pbOnLosingAbility(oldAbil)
     user.pbTriggerAbilityOnGainingIt
+  end
+end
+
+#===============================================================================
+# User and user's allies copy target's ability. (Doodle)
+#===============================================================================
+class Battle::Move::SetUserAndAlliesAbilityToTargetAbility < Battle::Move
+  def ignoresSubstitute?(user); return true; end
+
+  def pbMoveFailed?(user, targets)
+    failed = true
+    failed = false if !user.unstoppableAbility?
+    failed = false if user.allAllies.any? { |ally| !ally.unstoppableAbility? }
+    if failed
+      @battle.pbDisplay(_INTL("But it failed!"))
+      return true
+    end
+    return false
+  end
+
+  def pbFailsAgainstTarget?(user, target, show_message)
+    if !target.ability
+      @battle.pbDisplay(_INTL("But it failed!")) if show_message
+      return true
+    end
+    if user.ability == target.ability && user.allAllies.none? { |ally| ally.ability != target.ability }
+      @battle.pbDisplay(_INTL("But it failed!")) if show_message
+      return true
+    end
+    if target.ungainableAbility?
+      @battle.pbDisplay(_INTL("But it failed!")) if show_message
+      return true
+    end
+    return false
+  end
+
+  def pbEffectAgainstTarget(user, target)
+    user_side = [user] + user.allAllies
+    user_side.delete_if { |battler| battler.unstoppableAbility? || battler.ability == target.ability }
+    old_abils = []
+    # Change all abilities
+    user_side.each do |battler|
+      old_abils[battler.index] = battler.ability
+      @battle.pbShowAbilitySplash(battler, true, false)
+      battler.ability = target.ability
+      @battle.pbReplaceAbilitySplash(battler)
+      @battle.pbDisplay(_INTL("{1} copied {2}'s {3}!",
+                              battler.pbThis, target.pbThis(true), target.abilityName))
+      @battle.pbHideAbilitySplash(battler)
+    end
+    # Effects after abilities were changed
+    user_side.each { |battler| battler.pbOnLosingAbility(old_abils[battler.index]) }
+    user_side.each { |battler| battler.pbTriggerAbilityOnGainingIt }
   end
 end
 

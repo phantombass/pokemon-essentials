@@ -667,6 +667,7 @@ end
 class Battle::Move::LowerPPOfTargetLastMoveBy3 < Battle::Move
   def pbAdditionalEffect(user, target)
     return if target.fainted? || target.damageState.substitute
+    return if !target.affectedByAdditionalEffects?
     last_move = target.pbGetMoveWithID(target.lastRegularMoveUsed)
     return if !last_move || last_move.pp == 0 || last_move.total_pp <= 0
     reduction = [3, last_move.pp].min
@@ -902,6 +903,7 @@ end
 class Battle::Move::DisableTargetSoundMoves < Battle::Move
   def pbAdditionalEffect(user, target)
     return if target.fainted? || target.damageState.substitute
+    return if !target.affectedByAdditionalEffects?
     target.effects[PBEffects::ThroatChop] = 2 if target.effects[PBEffects::ThroatChop] == 0
   end
 end
