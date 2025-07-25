@@ -187,7 +187,7 @@ class UI::SavePanel < UI::SpriteContainer
     play_time_text = (hour > 0) ? _INTL("{1}h {2}m", hour, min) : _INTL("{1}m", min)
     draw_text(play_time_text, 222, 174, align: :right, theme: :gray)
     save_time = @save_data[:stats]&.real_time_saved
-    if save_time
+    if save_time && save_time != 0
       save_time = Time.at(save_time)
       if System.user_language[3..4] == "US"   # If the user is in the United States
         save_text = save_time.strftime("%-m/&-d/%Y")
@@ -337,7 +337,7 @@ class UI::SaveVisuals < UI::BaseVisuals
       if @save_data[@index]
         draw_text(sprintf("%d/%d", @index + 1, @save_data.length), Graphics.width - 8, 4, align: :right, theme: :gray)
       end
-    elsif $stats.save_count > 0 && $stats.real_time_saved
+    elsif $stats.save_count > 0 && $stats.real_time_saved && $stats.real_time_saved > 0
       save_time = Time.at($stats.real_time_saved)
       if System.user_language[3..4] == "US"   # If the user is in the United States
         date_text = save_time.strftime("%-m/&-d/%Y")
@@ -440,6 +440,7 @@ class UI::Save < UI::BaseScreen
       :variables   => $game_variables,
       :stats       => $stats
     }]
+    @current_save_data[1][:stats].set_time_last_saved
   end
 
   def determine_default_save_file
