@@ -1156,7 +1156,7 @@ UIActionHandlers.add(UI::Party::SCREEN_ID, :item_use, {
       bag_screen.set_filter_proc(proc { |itm|
         item_data = GameData::Item.get(itm)
         next false if !pbCanUseItemOnPokemon?(itm)
-        next false if pkmn.hyper_mode && !item_data&.is_scent?
+        next false if !pbItemHasEffectOnPokemon?(itm, pkmn)
         if item_data.is_machine?
           move = item_data.move
           next false if pkmn.hasMove?(move) || !pkmn.compatible_with_move?(move)

@@ -883,6 +883,9 @@ ItemHandlers::UseOnPokemon.add(:PPMAX, proc { |item, qty, pkmn, scene|
 #-------------------------------------------------------------------------------
 
 ItemHandlers::UsableOnPokemon.add(:HPUP, proc { |item, pkmn|
+  ev_total = 0
+  GameData::Stat.each_main { |s| ev_total += pkmn.ev[s.id] }
+  next false if ev_total >= Pokemon::EV_LIMIT
   next pkmn.ev[:HP] < (Settings::NO_VITAMIN_EV_CAP ? Pokemon::EV_STAT_LIMIT : 100)
 })
 ItemHandlers::UseOnPokemonMaximum.add(:HPUP, proc { |item, pkmn|
@@ -897,6 +900,9 @@ ItemHandlers::UseOnPokemonMaximum.copy(:HPUP, :HEALTHMOCHI)
 ItemHandlers::UseOnPokemon.copy(:HPUP, :HEALTHMOCHI)
 
 ItemHandlers::UsableOnPokemon.add(:PROTEIN, proc { |item, pkmn|
+  ev_total = 0
+  GameData::Stat.each_main { |s| ev_total += pkmn.ev[s.id] }
+  next false if ev_total >= Pokemon::EV_LIMIT
   next pkmn.ev[:ATTACK] < (Settings::NO_VITAMIN_EV_CAP ? Pokemon::EV_STAT_LIMIT : 100)
 })
 ItemHandlers::UseOnPokemonMaximum.add(:PROTEIN, proc { |item, pkmn|
@@ -911,6 +917,9 @@ ItemHandlers::UseOnPokemonMaximum.copy(:PROTEIN, :MUSCLEMOCHI)
 ItemHandlers::UseOnPokemon.copy(:PROTEIN, :MUSCLEMOCHI)
 
 ItemHandlers::UsableOnPokemon.add(:IRON, proc { |item, pkmn|
+  ev_total = 0
+  GameData::Stat.each_main { |s| ev_total += pkmn.ev[s.id] }
+  next false if ev_total >= Pokemon::EV_LIMIT
   next pkmn.ev[:DEFENSE] < (Settings::NO_VITAMIN_EV_CAP ? Pokemon::EV_STAT_LIMIT : 100)
 })
 ItemHandlers::UseOnPokemonMaximum.add(:IRON, proc { |item, pkmn|
@@ -925,6 +934,9 @@ ItemHandlers::UseOnPokemonMaximum.copy(:IRON, :RESISTMOCHI)
 ItemHandlers::UseOnPokemon.copy(:IRON, :RESISTMOCHI)
 
 ItemHandlers::UsableOnPokemon.add(:CALCIUM, proc { |item, pkmn|
+  ev_total = 0
+  GameData::Stat.each_main { |s| ev_total += pkmn.ev[s.id] }
+  next false if ev_total >= Pokemon::EV_LIMIT
   next pkmn.ev[:SPECIAL_ATTACK] < (Settings::NO_VITAMIN_EV_CAP ? Pokemon::EV_STAT_LIMIT : 100)
 })
 ItemHandlers::UseOnPokemonMaximum.add(:CALCIUM, proc { |item, pkmn|
@@ -939,6 +951,9 @@ ItemHandlers::UseOnPokemonMaximum.copy(:CALCIUM, :GENIUSMOCHI)
 ItemHandlers::UseOnPokemon.copy(:CALCIUM, :GENIUSMOCHI)
 
 ItemHandlers::UsableOnPokemon.add(:ZINC, proc { |item, pkmn|
+  ev_total = 0
+  GameData::Stat.each_main { |s| ev_total += pkmn.ev[s.id] }
+  next false if ev_total >= Pokemon::EV_LIMIT
   next pkmn.ev[:SPECIAL_DEFENSE] < (Settings::NO_VITAMIN_EV_CAP ? Pokemon::EV_STAT_LIMIT : 100)
 })
 ItemHandlers::UseOnPokemonMaximum.add(:ZINC, proc { |item, pkmn|
@@ -953,6 +968,9 @@ ItemHandlers::UseOnPokemonMaximum.copy(:ZINC, :CLEVERMOCHI)
 ItemHandlers::UseOnPokemon.copy(:ZINC, :CLEVERMOCHI)
 
 ItemHandlers::UsableOnPokemon.add(:CARBOS, proc { |item, pkmn|
+  ev_total = 0
+  GameData::Stat.each_main { |s| ev_total += pkmn.ev[s.id] }
+  next false if ev_total >= Pokemon::EV_LIMIT
   next pkmn.ev[:SPEED] < (Settings::NO_VITAMIN_EV_CAP ? Pokemon::EV_STAT_LIMIT : 100)
 })
 ItemHandlers::UseOnPokemonMaximum.add(:CARBOS, proc { |item, pkmn|

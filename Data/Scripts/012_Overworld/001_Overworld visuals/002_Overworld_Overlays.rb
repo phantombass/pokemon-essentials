@@ -136,12 +136,18 @@ end
 class DarknessSprite < Sprite
   attr_reader :radius
 
+  PIXELLATE_CIRCLE = true
+
   def initialize(viewport = nil)
     super(viewport)
-    @darkness = Bitmap.new(Graphics.width, Graphics.height)
+    bitmap_size = [Graphics.width, Graphics.height]
+    bitmap_size = [Graphics.width / 2, Graphics.height / 2] if PIXELLATE_CIRCLE
+    @darkness = Bitmap.new(*bitmap_size)
     @radius = radiusMin
     self.bitmap = @darkness
     self.z      = 99998
+    self.zoom_x = 2.0 if PIXELLATE_CIRCLE
+    self.zoom_y = 2.0 if PIXELLATE_CIRCLE
     refresh
   end
 
@@ -150,8 +156,17 @@ class DarknessSprite < Sprite
     super
   end
 
-  def radiusMin; return 64;  end   # Before using Flash
-  def radiusMax; return 176; end   # After using Flash
+  # Before using Flash.
+  def radiusMin
+    ret = 64
+    return (PIXELLATE_CIRCLE) ? ret / 2 : ret
+  end
+
+  # After using Flash.
+  def radiusMax
+    ret = 176
+    return (PIXELLATE_CIRCLE) ? ret / 2 : ret
+  end
 
   def radius=(value)
     @radius = value.round
@@ -159,15 +174,15 @@ class DarknessSprite < Sprite
   end
 
   def refresh
-    @darkness.fill_rect(0, 0, Graphics.width, Graphics.height, Color.black)
-    cx = Graphics.width / 2
-    cy = Graphics.height / 2
-    cradius = @radius
+    @darkness.fill_rect(0, 0, @darkness.width, @darkness.height, Color.black)
+    cx = @darkness.width / 2
+    cy = @darkness.height / 2
+    cradius = @radius - (@radius % 2)
     numfades = 5
     (1..numfades).each do |i|
       (cx - cradius..cx + cradius).each do |j|
         diff2 = (cradius * cradius) - ((j - cx) * (j - cx))
-        diff = Math.sqrt(diff2)
+        diff = Math.sqrt(diff2).round
         @darkness.fill_rect(j, cy - diff, 1, diff * 2, Color.new(0, 0, 0, 255.0 * (numfades - i) / numfades))
       end
       cradius = (cradius * 0.9).floor

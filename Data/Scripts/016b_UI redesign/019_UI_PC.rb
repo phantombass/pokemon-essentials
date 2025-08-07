@@ -269,3 +269,7 @@ MenuHandlers.add(:pc_menu, :close, {
 def pbPokeCenterPC
   UI::PC.pbPokeCenterPC
 end
+
+def pbGetStorageCreator
+  return UI::PC.pbGetStorageCreator
+end
