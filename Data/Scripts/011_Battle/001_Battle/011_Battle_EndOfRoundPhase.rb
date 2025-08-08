@@ -145,7 +145,6 @@ class Battle
     2.times do |side|
       next if sides[side].effects[PBEffects::SeaOfFire] == 0
       sides[side].effects[PBEffects::SeaOfFire] -= 1
-      next if sides[side].effects[PBEffects::SeaOfFire] == 0
       pbCommonAnimation("SeaOfFire") if side == 0
       pbCommonAnimation("SeaOfFireOpp") if side == 1
       priority.each do |battler|
@@ -287,6 +286,15 @@ class Battle
         pbDisplay(_INTL("{1} is afflicted by the curse!", battler.pbThis))
       end
     end
+    # Salt Cure
+    priority.each do |battler|
+      next if !battler.effects[PBEffects::SaltCure] || !battler.takesIndirectDamage?
+      pbCommonAnimation("SaltCure", battler)
+      fraction = (battler.pbHasType?(:STEEL) || battler.pbHasType?(:WATER)) ? 4 : 8
+      battler.pbTakeEffectDamage(battler.totalhp / fraction) do |hp_lost|
+        pbDisplay(_INTL("{1} is hurt by Salt Cure!", battler.pbThis))
+      end
+    end
   end
 
   #-----------------------------------------------------------------------------
@@ -327,6 +335,23 @@ class Battle
   #-----------------------------------------------------------------------------
   # End Of Round end effects that apply to a battler.
   #-----------------------------------------------------------------------------
+
+  def pbEORStatChanges(battler)
+    # Octolock
+    if !battler.fainted? && battler.effects[PBEffects::Octolock] >= 0
+      pbCommonAnimation("Octolock", battler)
+      battler.pbLowerStatStage(:DEFENSE, 1, nil) if battler.pbCanLowerStatStage?(:DEFENSE)
+      battler.pbLowerStatStage(:SPECIAL_DEFENSE, 1, nil) if battler.pbCanLowerStatStage?(:SPECIAL_DEFENSE)
+      battler.pbItemOnStatDropped
+    end
+    # Syrup Bomb
+    if !battler.fainted? && battler.effects[PBEffects::SyrupBomb] > 0
+      pbCommonAnimation("SyrupBomb", battler)
+      battler.pbLowerStatStage(:SPEED, 1, nil) if battler.pbCanLowerStatStage?(:SPEED)
+      battler.pbItemOnStatDropped
+      battler.effects[PBEffects::SyrupBomb] -= 1
+    end
+  end
 
   def pbEORCountDownBattlerEffect(priority, effect)
     priority.each do |battler|
@@ -372,7 +397,7 @@ class Battle
     end
     # Heal Block
     pbEORCountDownBattlerEffect(priority, PBEffects::HealBlock) do |battler|
-      pbDisplay(_INTL("{1}'s Heal Block wore off!", battler.pbThis))
+      pbDisplay(_INTL("{1} is no longer prevented from healing!", battler.pbThis))
     end
     # Embargo
     pbEORCountDownBattlerEffect(priority, PBEffects::Embargo) do |battler|
@@ -684,14 +709,8 @@ class Battle
     pbEOREffectDamage(priority)
     # Trapping attacks (Bind/Clamp/Fire Spin/Magma Storm/Sand Tomb/Whirlpool/Wrap)
     priority.each { |battler| pbEORTrappingDamage(battler) }
-    # Octolock
-    priority.each do |battler|
-      next if battler.fainted? || battler.effects[PBEffects::Octolock] < 0
-      pbCommonAnimation("Octolock", battler)
-      battler.pbLowerStatStage(:DEFENSE, 1, nil) if battler.pbCanLowerStatStage?(:DEFENSE)
-      battler.pbLowerStatStage(:SPECIAL_DEFENSE, 1, nil) if battler.pbCanLowerStatStage?(:SPECIAL_DEFENSE)
-      battler.pbItemOnStatDropped
-    end
+    # Stat changes (Octolock, Syrup Bomb)
+    priority.each { |battler| pbEORStatChanges(battler) }
     # Effects that apply to a battler that wear off after a number of rounds
     pbEOREndBattlerEffects(priority)
     # Check for end of battle (i.e. because of Perish Song)

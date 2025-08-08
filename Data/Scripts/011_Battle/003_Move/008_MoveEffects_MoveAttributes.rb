@@ -371,6 +371,25 @@ class Battle::Move::PowerHigherWithConsecutiveUseOnUserSide < Battle::Move
 end
 
 #===============================================================================
+# Power is multiplied by the number of times Pokémon has been hit. (Rage Fist)
+#===============================================================================
+class Battle::Move::PowerHigherWithTimesHit < Battle::Move
+  def pbBaseDamage(baseDmg, user, target)
+    return baseDmg * (1 + [@battle.hitsTakenCounts[user.idxOwnSide][user.pokemonIndex], 6].min)
+  end
+end
+
+#===============================================================================
+# Power is multiplied by the number of times a Pokémon on the user's side has
+# fainted. (Last Respects)
+#===============================================================================
+class Battle::Move::PowerHigherWithFaintedAllies < Battle::Move
+  def pbBaseDamage(baseDmg, user, target)
+    return baseDmg * (1 + [@battle.sideFaintCounts[user.idxOwnSide], 100].min)
+  end
+end
+
+#===============================================================================
 # Power is chosen at random. Power is doubled if the target is using Dig. Hits
 # some semi-invulnerable targets. (Magnitude)
 #===============================================================================

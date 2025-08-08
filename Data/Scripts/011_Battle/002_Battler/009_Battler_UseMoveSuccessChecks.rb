@@ -43,7 +43,8 @@ class Battle::Battler
     end
     # Choice Band/Gorilla Tactics
     @effects[PBEffects::ChoiceBand] = nil if !pbHasMove?(@effects[PBEffects::ChoiceBand])
-    if @effects[PBEffects::ChoiceBand] && move.id != @effects[PBEffects::ChoiceBand]
+    if @effects[PBEffects::ChoiceBand] && move.id != @effects[PBEffects::ChoiceBand] &&
+       move.id != @battle.struggle.id
       choiced_move = GameData::Move.try_get(@effects[PBEffects::ChoiceBand])
       if choiced_move
         if hasActiveItem?([:CHOICEBAND, :CHOICESPECS, :CHOICESCARF])
@@ -88,7 +89,8 @@ class Battle::Battler
     end
     # Assault Vest (prevents choosing status moves but doesn't prevent
     # executing them)
-    if hasActiveItem?(:ASSAULTVEST) && move.statusMove? && move.function_code != "UseMoveTargetIsAboutToUse" && commandPhase
+    if hasActiveItem?(:ASSAULTVEST) && move.statusMove? &&
+       move.function_code != "UseMoveTargetIsAboutToUse" && commandPhase
       if showMessages
         msg = _INTL("The effects of the {1} prevent status moves from being used!", itemName)
         (commandPhase) ? @battle.pbDisplayPaused(msg) : @battle.pbDisplay(msg)
@@ -581,6 +583,8 @@ class Battle::Battler
     # Lock-On
     return true if user.effects[PBEffects::LockOn] > 0 &&
                    user.effects[PBEffects::LockOnPos] == target.index
+    # Glaive Rush
+    return true if target.effects[PBEffects::Vulnerable]
     # Toxic
     return true if move.pbOverrideSuccessCheckPerHit(user, target)
     # No Guard
@@ -617,6 +621,8 @@ class Battle::Battler
     # Lock-On
     return true if user.effects[PBEffects::LockOn] > 0 &&
                    user.effects[PBEffects::LockOnPos] == target.index
+    # Glaive Rush
+    return true if target.effects[PBEffects::Vulnerable]
     # Toxic
     return true if move.pbOverrideSuccessCheckPerHit(user, target)
     # No Guard

@@ -1407,6 +1407,16 @@ class Battle::Move::IgnoreTargetAbility < Battle::Move
 end
 
 #===============================================================================
+# Until the user next acts, attacks against it are certain to hit and do double
+# damage. (Glaive Rush)
+#===============================================================================
+class Battle::Move::UserVulnerableUntilNextAction < Battle::Move
+  def pbEffectAgainstTarget(user, target)
+    user.effects[PBEffects::Vulnerable] = true if !target.damageState.unaffected
+  end
+end
+
+#===============================================================================
 # For 5 rounds, user becomes airborne. (Magnet Rise)
 #===============================================================================
 class Battle::Move::StartUserAirborne < Battle::Move
@@ -1535,6 +1545,18 @@ class Battle::Move::StartGravity < Battle::Move
         @battle.pbDisplay(_INTL("{1} couldn't stay airborne because of gravity!", b.pbThis))
       end
     end
+  end
+end
+
+#===============================================================================
+# The target takes 1/8 of its total HP as damage at the end of the round (or
+# double that if the target is Steel or Water type). (Salt Cure)
+#===============================================================================
+class Battle::Move::StartSaltCureTarget < Battle::Move
+  def pbEffectAgainstTarget(user, target)
+    return if !target.affectedByAdditionalEffects?
+    target.effects[PBEffects::SaltCure] = true
+    @battle.pbDisplay(_INTL("{1} is being salt cured}!", target.pbThis))
   end
 end
 

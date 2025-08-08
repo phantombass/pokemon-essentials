@@ -126,7 +126,7 @@ class Battle::Battler
       @effects[PBEffects::PerishSong]        = 0
       @effects[PBEffects::PerishSongUser]    = -1
       @effects[PBEffects::PowerTrick]        = false
-      @effects[PBEffects::Substitute]        = 0
+      @effects[PBEffects::Substitute]        = 0 if !@effects[PBEffects::ShedTail]
       @effects[PBEffects::Telekinesis]       = 0
     end
     @fainted                 = (@hp == 0)
@@ -151,6 +151,7 @@ class Battle::Battler
     @lastRoundMoveFailed     = false
     @movesUsed               = []
     @turnCount               = 0
+    @effects[PBEffects::AllySwitchRate]      = 1
     @effects[PBEffects::Attract]             = -1
     @battle.allBattlers.each do |b|   # Other battlers no longer attracted to self
       b.effects[PBEffects::Attract] = -1 if b.effects[PBEffects::Attract] == @index
@@ -187,6 +188,7 @@ class Battle::Battler
     @effects[PBEffects::Foresight]           = false
     @effects[PBEffects::FuryCutter]          = 0
     @effects[PBEffects::GemConsumed]         = nil
+    @effects[PBEffects::GigatonHammer]       = false
     @effects[PBEffects::Grudge]              = false
     @effects[PBEffects::HelpingHand]         = false
     @effects[PBEffects::HyperBeam]           = 0
@@ -249,6 +251,7 @@ class Battle::Battler
     @effects[PBEffects::RagePowder]          = false
     @effects[PBEffects::Rollout]             = 0
     @effects[PBEffects::Roost]               = false
+    @effects[PBEffects::SaltCure]            = false
     @effects[PBEffects::SilkTrap]            = false
     @effects[PBEffects::SkyDrop]             = -1
     @battle.allBattlers.each do |b|   # Other battlers no longer Sky Dropped by self
@@ -262,6 +265,13 @@ class Battle::Battler
     @effects[PBEffects::Stockpile]           = 0
     @effects[PBEffects::StockpileDef]        = 0
     @effects[PBEffects::StockpileSpDef]      = 0
+    @effects[PBEffects::SyrupBomb]           = 0
+    @effects[PBEffects::SyrupBombUser]       = -1
+    @battle.allBattlers.each do |b|   # Other battlers no longer syruped by self
+      next if b.effects[PBEffects::SyrupBomb] != @index
+      b.effects[PBEffects::SyrupBomb]     = 0
+      b.effects[PBEffects::SyrupBombUser] = -1
+    end
     @effects[PBEffects::TarShot]             = false
     @effects[PBEffects::Taunt]               = 0
     @effects[PBEffects::ThroatChop]          = 0
@@ -281,6 +291,7 @@ class Battle::Battler
     @effects[PBEffects::TwoTurnAttack]       = nil
     @effects[PBEffects::Unburden]            = false
     @effects[PBEffects::Uproar]              = 0
+    @effects[PBEffects::Vulnerable]          = false
     @effects[PBEffects::WaterSport]          = false
     @effects[PBEffects::WeightChange]        = 0
     @effects[PBEffects::Yawn]                = 0

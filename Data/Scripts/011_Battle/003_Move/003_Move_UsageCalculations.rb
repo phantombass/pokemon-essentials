@@ -452,6 +452,9 @@ class Battle::Move
     when :ShadowSky
       multipliers[:final_damage_multiplier] *= 1.5 if type == :SHADOW
     end
+    if target.effects[PBEffects::Vulnerable]
+      multipliers[:final_damage_multiplier] *= 2
+    end
     # Critical hits
     if target.damageState.critical
       if Settings::NEW_CRITICAL_HIT_RATE_MECHANICS

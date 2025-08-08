@@ -332,6 +332,7 @@ Battle::ItemEffects::HPHeal.add(:LANSATBERRY,
     next false if battler.effects[PBEffects::FocusEnergy] >= 2
     battle.pbCommonAnimation("EatBerry", battler) if !forced
     battler.effects[PBEffects::FocusEnergy] = 2
+    battle.pbCommonAnimation("CriticalHitRateUp", battler)
     itemName = GameData::Item.get(item).name
     if forced
       battle.pbDisplay(_INTL("{1} got pumped from the {2}!", battler.pbThis, itemName))

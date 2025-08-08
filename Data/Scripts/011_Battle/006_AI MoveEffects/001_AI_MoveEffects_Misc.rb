@@ -245,7 +245,28 @@ Battle::AI::Handlers::MoveEffectScore.add("StartHailWeather",
     if ai.trainer.high_skill? && battle.field.weather != :None
       score -= ai.get_score_for_weather(battle.field.weather, user)
     end
-    score += ai.get_score_for_weather((Settings::USE_SNOWSTORM_WEATHER_INSTEAD_OF_HAIL ? :Snowstorm : :Hail), user, true)
+    score += ai.get_score_for_weather(:Hail, user, true)
+    next score
+  }
+)
+
+#===============================================================================
+#
+#===============================================================================
+Battle::AI::Handlers::MoveFailureCheck.copy("StartSunWeather",
+                                            "StartSnowstormWeather")
+Battle::AI::Handlers::MoveEffectScore.add("StartSnowstormWeather",
+  proc { |score, move, user, ai, battle|
+    next Battle::AI::MOVE_USELESS_SCORE if battle.pbCheckGlobalAbility(:AIRLOCK) ||
+                                           battle.pbCheckGlobalAbility(:CLOUDNINE)
+    # Not worth it at lower HP
+    if ai.trainer.has_skill_flag?("HPAware")
+      score -= 10 if user.hp < user.totalhp / 2
+    end
+    if ai.trainer.high_skill? && battle.field.weather != :None
+      score -= ai.get_score_for_weather(battle.field.weather, user)
+    end
+    score += ai.get_score_for_weather(:Snowstorm, user, true)
     next score
   }
 )

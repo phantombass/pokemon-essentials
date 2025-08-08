@@ -34,6 +34,13 @@ class Battle::Move::SwitchOutUserStatusMove < Battle::Move
     return false
   end
 
+  def pbEffectGeneral(user)
+    if user.wild?
+      @battle.pbDisplay(_INTL("{1} fled from battle!", user.pbThis))
+      @battle.decision = Battle::Outcome::FLEE
+    end
+  end
+
   def pbEndOfMoveUsageEffect(user, targets, numHits, switchedBattlers)
     return if user.wild?
     @battle.pbDisplay(_INTL("{1} went back to {2}!", user.pbThis,
@@ -47,13 +54,6 @@ class Battle::Move::SwitchOutUserStatusMove < Battle::Move
     @battle.moldBreaker = false
     @battle.pbOnBattlerEnteringBattle(user.index)
     switchedBattlers.push(user.index)
-  end
-
-  def pbEffectGeneral(user)
-    if user.wild?
-      @battle.pbDisplay(_INTL("{1} fled from battle!", user.pbThis))
-      @battle.decision = Battle::Outcome::FLEE
-    end
   end
 end
 
@@ -137,6 +137,95 @@ class Battle::Move::SwitchOutUserPassOnEffects < Battle::Move
     newPkmn = @battle.pbGetReplacementPokemonIndex(user.index)   # Owner chooses
     return if newPkmn < 0
     @battle.pbRecallAndReplace(user.index, newPkmn, false, true)
+    @battle.pbClearChoice(user.index)   # Replacement Pokémon does nothing this round
+    @battle.moldBreaker = false
+    @battle.pbOnBattlerEnteringBattle(user.index)
+    switchedBattlers.push(user.index)
+  end
+end
+
+#===============================================================================
+# User turns 1/2 of max HP into a substitute (it has 1/4 of max HP). User
+# switches out. (Shed Tail)
+#===============================================================================
+class Battle::Move::UserMakeSubstituteSwitchOutUser < Battle::Move
+  def pbMoveFailed?(user, targets)
+    if user.effects[PBEffects::Substitute] > 0
+      @battle.pbDisplay(_INTL("But it failed!"))
+      return true
+    end
+    @subLife = [(user.totalhp / 2.0).ceil, 1].max
+    if user.hp <= @subLife
+      @battle.pbDisplay(_INTL("But it failed!"))
+      return true
+    end
+    if user.wild? || !@battle.pbCanChooseNonActive?(user.index)
+      @battle.pbDisplay(_INTL("But it failed!"))
+      return true
+    end
+    return false
+  end
+
+  def pbOnStartUse(user, targets)
+    user.pbReduceHP(@subLife, false, false)
+    user.pbItemHPHealCheck
+  end
+
+  def pbEffectGeneral(user)
+    user.effects[PBEffects::Trapping]     = 0
+    user.effects[PBEffects::TrappingMove] = nil
+    user.effects[PBEffects::Substitute]   = @subLife / 2
+    @battle.pbDisplay(_INTL("{1} put in a substitute!", user.pbThis))
+  end
+
+  def pbEndOfMoveUsageEffect(user, targets, numHits, switchedBattlers)
+    return if user.wild? || !@battle.pbCanChooseNonActive?(user.index)
+    @battle.pbDisplay(_INTL("{1} went back to {2}!", user.pbThis,
+                            @battle.pbGetOwnerName(user.index)))
+    @battle.pbPursuit(user.index)
+    return if user.fainted?
+    newPkmn = @battle.pbGetReplacementPokemonIndex(user.index)   # Owner chooses
+    return if newPkmn < 0
+    user.effects[PBEffects::ShedTail] = true   # Ensures substitute isn't lost
+    @battle.pbRecallAndReplace(user.index, newPkmn)
+    user.effects[PBEffects::ShedTail] = false
+    @battle.pbClearChoice(user.index)   # Replacement Pokémon does nothing this round
+    @battle.moldBreaker = false
+    @battle.pbOnBattlerEnteringBattle(user.index)
+    switchedBattlers.push(user.index)
+  end
+end
+
+#===============================================================================
+# Starts snowstorm weather. User switches out. (Chilly Reception)
+#===============================================================================
+class Battle::Move::StartSnowstormWeatherSwitchOutUser < Battle::Move
+  def pbDisplayChargeMessage(user)
+    @battle.pbDisplay(_INTL("{1} is preparing to tell a chillingly bad joke!", user.pbThis))
+  end
+
+  def pbMoveFailed?(user, targets)
+    if @battle.field.weather == :Snowstorm &&
+       (user.wild? || !@battle.pbCanChooseNonActive?(user.index))
+      @battle.pbDisplay(_INTL("But it failed!"))
+      return true
+    end
+    return false
+  end
+
+  def pbEffectGeneral(user)
+    @battle.pbStartWeather(user, :Snowstorm, true, false)
+  end
+
+  def pbEndOfMoveUsageEffect(user, targets, numHits, switchedBattlers)
+    return if user.wild? || !@battle.pbCanChooseNonActive?(user.index)
+    @battle.pbDisplay(_INTL("{1} went back to {2}!", user.pbThis,
+                            @battle.pbGetOwnerName(user.index)))
+    @battle.pbPursuit(user.index)
+    return if user.fainted?
+    newPkmn = @battle.pbGetReplacementPokemonIndex(user.index)   # Owner chooses
+    return if newPkmn < 0
+    @battle.pbRecallAndReplace(user.index, newPkmn)
     @battle.pbClearChoice(user.index)   # Replacement Pokémon does nothing this round
     @battle.moldBreaker = false
     @battle.pbOnBattlerEnteringBattle(user.index)
@@ -247,7 +336,7 @@ class Battle::Move::BindTarget < Battle::Move
     return if target.effects[PBEffects::Trapping] > 0
     # Set trapping effect duration and info
     if user.hasActiveItem?(:GRIPCLAW)
-      target.effects[PBEffects::Trapping] = (Settings::MECHANICS_GENERATION >= 5) ? 8 : 6
+      target.effects[PBEffects::Trapping] = 8
     else
       target.effects[PBEffects::Trapping] = 5 + @battle.pbRandom(2)
     end
@@ -892,6 +981,19 @@ class Battle::Move::DisableTargetHealingMoves < Battle::Move
 
   def pbEffectAgainstTarget(user, target)
     target.effects[PBEffects::HealBlock] = 5
+    @battle.pbDisplay(_INTL("{1} was prevented from healing!", target.pbThis))
+    target.pbItemStatusCureCheck
+  end
+end
+
+#===============================================================================
+# For 2 rounds, disables the target's healing moves. (Psychic Noise)
+#===============================================================================
+class Battle::Move::StartTargetCannotHeal < Battle::Move
+  def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
+    return if target.effects[PBEffects::HealBlock] > 0
+    target.effects[PBEffects::HealBlock] = 2
     @battle.pbDisplay(_INTL("{1} was prevented from healing!", target.pbThis))
     target.pbItemStatusCureCheck
   end

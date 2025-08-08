@@ -3,6 +3,7 @@
 #===============================================================================
 module Battle::DebugVariables
   BATTLER_EFFECTS = {
+    PBEffects::AllySwitchRate => {name: "Ally Switch success chance 1/x",                  default: 1, max: 999},
     PBEffects::AquaRing       => {name: "Aqua Ring applies",                               default: false},
     PBEffects::Attract        => {name: "Battler that self is attracted to",               default: -1},   # Battler index
     PBEffects::BanefulBunker  => {name: "Baneful Bunker applies this round",               default: false},
@@ -42,6 +43,7 @@ module Battle::DebugVariables
     PBEffects::FuryCutter     => {name: "Fury Cutter power multiplier 2**x (0-4)",         default: 0, max: 4},
     PBEffects::GastroAcid     => {name: "Gastro Acid is negating self's ability",          default: false},
 #    PBEffects::GemConsumed - only applies during use of move, not suitable for setting via debug
+    PBEffects::GigatonHammer  => {name: "Gigaton Hammer/Blood Moon is the last used move", default: false},
     PBEffects::Grudge         => {name: "Grudge will apply if self faints",                default: false},
     PBEffects::HealBlock      => {name: "Heal Block number of rounds remaining",           default: 0},
     PBEffects::HelpingHand    => {name: "Helping Hand will power up self's move",          default: false},
@@ -104,6 +106,8 @@ module Battle::DebugVariables
     PBEffects::StockpileDef   => {name: "Def stages gained by Stockpile (0-12)",           default: 0, max: 12},
     PBEffects::StockpileSpDef => {name: "Sp. Def stages gained by Stockpile (0-12)",       default: 0, max: 12},
     PBEffects::Substitute     => {name: "Substitute's HP",                                 default: 0, max: 999},
+    PBEffects::SyrupBomb      => {name: "Syrup Bomb number of rounds remaining",           default: 0},
+    PBEffects::SyrupBombUser  => {name: "Battler that used Syrup Bomb on self",            default: -1},   # Battler index
     PBEffects::TarShot        => {name: "Tar Shot weakening self to Fire",                 default: false},
     PBEffects::Taunt          => {name: "Taunt number of rounds remaining",                default: 0},
     PBEffects::Telekinesis    => {name: "Telekinesis number of rounds remaining",          default: 0},

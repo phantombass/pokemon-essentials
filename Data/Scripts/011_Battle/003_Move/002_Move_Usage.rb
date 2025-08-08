@@ -14,9 +14,11 @@ class Battle::Move
 
   # Reset move usage counters (child classes can increment them).
   def pbChangeUsageCounters(user, specialUsage)
-    user.effects[PBEffects::FuryCutter]   = 0
-    user.effects[PBEffects::ParentalBond] = 0
-    user.effects[PBEffects::ProtectRate]  = 1
+    user.effects[PBEffects::AllySwitchRate] = 1
+    user.effects[PBEffects::FuryCutter]     = 0
+    user.effects[PBEffects::GigatonHammer]  = false
+    user.effects[PBEffects::ParentalBond]   = 0
+    user.effects[PBEffects::ProtectRate]    = 1
     @battle.field.effects[PBEffects::FusionBolt]  = false
     @battle.field.effects[PBEffects::FusionFlare] = false
   end

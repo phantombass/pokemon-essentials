@@ -39,7 +39,7 @@ class Battle::Battler
         end
       end
       pbBeginTurn(choice)
-      pbCancelMoves
+      pbCancelMoves(false)
       @lastRoundMoved = @battle.turnCount   # Done something this round
       return true
     end
@@ -70,6 +70,7 @@ class Battle::Battler
     @effects[PBEffects::Grudge]              = false
     @effects[PBEffects::MoveNext]            = false
     @effects[PBEffects::Quash]               = 0
+    @effects[PBEffects::Vulnerable]          = false
     # Encore's effect ends if the encored move is no longer available
     if @effects[PBEffects::Encore] > 0 && pbEncoredMoveIndex < 0
       @effects[PBEffects::Encore]     = 0
@@ -82,7 +83,7 @@ class Battle::Battler
   # Pursuit was used specially to intercept a switching foe.
   # Cancels the use of multi-turn moves and counters thereof. Note that Hyper
   # Beam's effect is NOT cancelled.
-  def pbCancelMoves(full_cancel = false)
+  def pbCancelMoves(move_failed = true, full_cancel = false)
     # Outragers get confused anyway if they are disrupted during their final
     # turn of using the move
     if @effects[PBEffects::Outrage] == 1 && pbCanConfuseSelf?(false) && !full_cancel
@@ -100,9 +101,10 @@ class Battle::Battler
     @currentMove = nil if @effects[PBEffects::HyperBeam] == 0
     # Reset counters for moves which increase them when used in succession
     @effects[PBEffects::FuryCutter] = 0
+    @effects[PBEffects::GigatonHammer] = false if move_failed
   end
 
-  def pbEndTurn(_choice)
+  def pbEndTurn(choice)
     @lastRoundMoved = @battle.turnCount   # Done something this round
     if !@effects[PBEffects::ChoiceBand] &&
        (hasActiveItem?([:CHOICEBAND, :CHOICESPECS, :CHOICESCARF]) ||
@@ -113,12 +115,15 @@ class Battle::Battler
         @effects[PBEffects::ChoiceBand] = @lastRegularMoveUsed
       end
     end
-    @effects[PBEffects::BeakBlast]   = false
-    if Settings::MECHANICS_GENERATION < 9 || @lastMoveUsedType == :ELECTRIC
-      @effects[PBEffects::Charge]    = 0 if @effects[PBEffects::Charge] == 1
+    @effects[PBEffects::BeakBlast] = false
+    if @effects[PBEffects::Charge] > 0
+      if Settings::MECHANICS_GENERATION < 9 || @lastMoveUsedType == :ELECTRIC ||
+         (choice[2] && choice[2].pbCalcType(self) == :ELECTRIC)
+        @effects[PBEffects::Charge] = 0 if @effects[PBEffects::Charge] == 1
+      end
     end
     @effects[PBEffects::GemConsumed] = nil
-    @effects[PBEffects::ShellTrap]   = false
+    @effects[PBEffects::ShellTrap] = false
     @battle.allBattlers.each { |b| b.pbContinualAbilityChecks }   # Trace, end primordial weathers
   end
 
@@ -198,7 +203,7 @@ class Battle::Battler
         @lastRegularMoveTarget = -1
       end
       @battle.pbGainExp   # In case self is KO'd due to confusion
-      pbCancelMoves
+      pbCancelMoves(false)
       pbEndTurn(choice)
       return
     end
@@ -654,6 +659,7 @@ class Battle::Battler
         move.pbCalcDamage(user, b, targets.length)   # Stored in damageState.calcDamage
         # Lessen damage dealt because of False Swipe/Endure/etc.
         move.pbReduceDamage(user, b)   # Stored in damageState.hpLost
+        @battle.hitsTakenCounts[b.idxOwnSide][b.pokemonIndex] += 1 if !b.damageState.substitute
       end
     end
     # Show move animation (for this hit)

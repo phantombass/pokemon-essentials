@@ -1962,6 +1962,14 @@ Battle::AbilityEffects::OnBeingHit.add(:EFFECTSPORE,
   }
 )
 
+Battle::AbilityEffects::OnBeingHit.add(:ELECTROMORPHOSIS,
+  proc { |ability, user, target, move, battle|
+    next if target.effects[PBEffects::Charge] > 0
+    target.effects[PBEffects::Charge] = 2
+    battle.pbDisplay(_INTL("Being hit by {1} charged {2} with power!", move.name, target.pbThis(true)))
+  }
+)
+
 Battle::AbilityEffects::OnBeingHit.add(:FLAMEBODY,
   proc { |ability, user, target, move, battle|
     next if !move.pbContactMove?(user)
@@ -2235,6 +2243,18 @@ Battle::AbilityEffects::OnBeingHit.add(:WEAKARMOR,
     target.pbRaiseStatStageByAbility(:SPEED,
        (Settings::MECHANICS_GENERATION >= 7) ? 2 : 1, target, false)
     battle.pbHideAbilitySplash(target)
+  }
+)
+
+# NOTE: This only triggers if hit by a damaging wind move, not a status one.
+#       Tailwind triggers it manually in its own move effect. There are no other
+#       wind status moves that should trigger it, at least for now.
+Battle::AbilityEffects::OnBeingHit.add(:WINDPOWER,
+  proc { |ability, user, target, move, battle|
+    next if !move.windMove?
+    next if target.effects[PBEffects::Charge] > 0
+    target.effects[PBEffects::Charge] = 2
+    battle.pbDisplay(_INTL("Being hit by {1} charged {2} with power!", move.name, target.pbThis(true)))
   }
 )
 

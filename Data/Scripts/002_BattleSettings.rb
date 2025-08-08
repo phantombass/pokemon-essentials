@@ -56,7 +56,8 @@ module Settings
   #-----------------------------------------------------------------------------
 
   # Whether the in-battle hail weather is replaced by Snowstorm (from Gen 9+)
-  # instead.
+  # instead. Affects the weather started by the Ability Snow Warning and the
+  # default battle weather if it is hailing in the overworld.
   USE_SNOWSTORM_WEATHER_INSTEAD_OF_HAIL = (MECHANICS_GENERATION >= 9)
   # Whether weather caused by an ability lasts 5 rounds (true) or forever (false).
   FIXED_DURATION_WEATHER_FROM_ABILITY   = (MECHANICS_GENERATION >= 6)

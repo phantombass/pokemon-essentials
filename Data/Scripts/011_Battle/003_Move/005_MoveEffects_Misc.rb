@@ -70,6 +70,41 @@ class Battle::Move::DoubleMoneyGainedFromBattle < Battle::Move
 end
 
 #===============================================================================
+# The move cannot be chosen if it is also the last move the user used (unless it
+# failed). (Blood Moon, Gigaton Hammer)
+#===============================================================================
+class Battle::Move::CannotUseConsecutively < Battle::Move
+  def pbCanChooseMove?(user, commandPhase, showMessages)
+    if user.effects[PBEffects::GigatonHammer] && commandPhase
+      if showMessages
+        msg = _INTL("You can't use {1} twice in a row!", @name)
+        (commandPhase) ? @battle.pbDisplayPaused(msg) : @battle.pbDisplay(msg)
+      end
+      return false
+    end
+    return true
+  end
+
+  def pbMoveFailed?(user, targets)
+    if user.effects[PBEffects::GigatonHammer]
+      @battle.pbDisplay(_INTL("But it failed!"))
+      return true
+    end
+    return false
+  end
+
+  def pbChangeUsageCounters(user, specialUsage)
+    oldVal = user.effects[PBEffects::GigatonHammer]
+    super
+    user.effects[PBEffects::GigatonHammer] = oldVal
+  end
+
+  def pbEffectGeneral(user)
+    user.effects[PBEffects::GigatonHammer] = true
+  end
+end
+
+#===============================================================================
 # Fails if this isn't the user's first turn. (First Impression)
 #===============================================================================
 class Battle::Move::FailsIfNotUserFirstTurn < Battle::Move
@@ -267,7 +302,17 @@ end
 class Battle::Move::StartHailWeather < Battle::Move::WeatherMove
   def initialize(battle, move)
     super
-    @weatherType = (Settings::USE_SNOWSTORM_WEATHER_INSTEAD_OF_HAIL) ? :Snowstorm : :Hail
+    @weatherType = :Hail
+  end
+end
+
+#===============================================================================
+# Starts snowstorm weather. (Snowstorm)
+#===============================================================================
+class Battle::Move::StartSnowstormWeather < Battle::Move::WeatherMove
+  def initialize(battle, move)
+    super
+    @weatherType = :Snowstorm
   end
 end
 
@@ -706,10 +751,18 @@ class Battle::Move::AttackTwoTurnsLater < Battle::Move
 end
 
 #===============================================================================
-# User switches places with its ally. (Ally Switch)
+# User switches places with its ally. In Gen 9+, more likely to fail if used in
+# succession. (Ally Switch)
 #===============================================================================
 class Battle::Move::UserSwapsPositionsWithAlly < Battle::Move
+  def pbChangeUsageCounters(user, specialUsage)
+    oldVal = user.effects[PBEffects::AllySwitchRate]
+    super
+    user.effects[PBEffects::AllySwitchRate] = oldVal
+  end
+
   def pbMoveFailed?(user, targets)
+    # Fails if there isn't exactly 1 near ally to switch with
     numTargets = 0
     @idxAlly = -1
     idxUserOwner = @battle.pbGetOwnerIndexFromBattlerIndex(user.index)
@@ -720,6 +773,15 @@ class Battle::Move::UserSwapsPositionsWithAlly < Battle::Move
       @idxAlly = b.index
     end
     if numTargets != 1
+      user.effects[PBEffects::AllySwitchRate] = 1
+      @battle.pbDisplay(_INTL("But it failed!"))
+      return true
+    end
+    # May fail if used in succession
+    if Settings::MECHANICS_GENERATION >= 9 &&
+       user.effects[PBEffects::AllySwitchRate] > 1 &&
+       @battle.pbRandom(user.effects[PBEffects::AllySwitchRate]) != 0
+      user.effects[PBEffects::AllySwitchRate] = 1
       @battle.pbDisplay(_INTL("But it failed!"))
       return true
     end
@@ -727,6 +789,7 @@ class Battle::Move::UserSwapsPositionsWithAlly < Battle::Move
   end
 
   def pbEffectGeneral(user)
+    user.effects[PBEffects::AllySwitchRate] *= (Settings::MECHANICS_GENERATION >= 6) ? 3 : 2
     idxA = user.index
     idxB = @idxAlly
     if @battle.pbSwapBattlers(idxA, idxB)

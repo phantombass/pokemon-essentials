@@ -590,7 +590,8 @@ Battle::AI::Handlers::ItemRanking.add(:IAPAPABERRY,
 
 Battle::AI::Handlers::ItemRanking.add(:ICYROCK,
   proc { |item, score, battler, ai|
-    next score if battler.check_for_move { |m| m.is_a?(Battle::Move::StartHailWeather) }
+    next score if battler.check_for_move { |m| m.is_a?(Battle::Move::StartHailWeather) ||
+                                               m.is_a?(Battle::Move::StartSnowstormWeather) }
     next 0
   }
 )

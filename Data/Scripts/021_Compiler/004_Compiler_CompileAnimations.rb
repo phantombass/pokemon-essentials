@@ -6,13 +6,6 @@ module Compiler
     :should_compile => proc { |compiling| next should_compile_animations? },
     :header_text    => proc { next _INTL("Compiling animations") },
     :skipped_text   => proc { next _INTL("Not compiled") },
-    :compile        => proc { compile_animations }
-  }
-
-  @@categories[:animations] = {
-    :should_compile => proc { |compiling| next should_compile_animations? },
-    :header_text    => proc { next _INTL("Compiling animations") },
-    :skipped_text   => proc { next _INTL("Not compiled") },
     :compile        => proc {
       # Delete old data files in preparation for recompiling
       begin

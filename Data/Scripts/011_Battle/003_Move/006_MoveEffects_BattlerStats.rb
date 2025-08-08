@@ -400,7 +400,31 @@ class Battle::Move::RaiseUserCriticalHitRate2 < Battle::Move
 
   def pbEffectGeneral(user)
     user.effects[PBEffects::FocusEnergy] = 2
+    @battle.pbCommonAnimation("CriticalHitRateUp", user)
     @battle.pbDisplay(_INTL("{1} is getting pumped!", user.pbThis))
+  end
+end
+
+#===============================================================================
+# Increases the user's critical hit rate. (Dragon Cheer)
+#===============================================================================
+class Battle::Move::RaiseAlliesCriticalHitRate1Or2IfDragonType < Battle::Move
+  def pbMoveFailed?(user, targets)
+    if user.allAllies.none? { |battler| battler.effects[PBEffects::FocusEnergy] == 0 }
+      @battle.pbDisplay(_INTL("But it failed!"))
+      return true
+    end
+    return false
+  end
+
+  def pbEffectGeneral(user)
+    user.allAllies.each do |battler|
+      next if battler.effects[PBEffects::FocusEnergy] > 0
+      increment = (battler.pbHasType?(:DRAGON)) ? 2 : 1
+      battler.effects[PBEffects::FocusEnergy] = increment
+      @battle.pbCommonAnimation("CriticalHitRateUp", battler)
+      @battle.pbDisplay(_INTL("{1} is getting pumped!", battler.pbThis))
+    end
   end
 end
 
@@ -1402,6 +1426,20 @@ class Battle::Move::LowerTargetSpeed1MakeTargetWeakerToFire < Battle::Move::Targ
 end
 
 #===============================================================================
+# For 3 rounds, decreases the target's Speed by 1 stage at the end of the round.
+# Effect ends immediately if the user switches out. (Syrup Bomb)
+#===============================================================================
+class Battle::Move::StartSyrupBombTarget < Battle::Move
+  def pbAdditionalEffect(user, target)
+    return if !target.affectedByAdditionalEffects?
+    return if target.effects[PBEffects::SyrupBomb] > 0
+    target.effects[PBEffects::SyrupBomb]     = 4
+    target.effects[PBEffects::SyrupBombUser] = user.index
+    @battle.pbDisplay(_INTL("{1} got covered in sticky candy syrup!", target.pbThis))
+  end
+end
+
+#===============================================================================
 # Decreases the target's Speed by 2 stages. (Cotton Spore, Scary Face, String Shot)
 #===============================================================================
 class Battle::Move::LowerTargetSpeed2 < Battle::Move::TargetStatDownMove
@@ -2184,6 +2222,7 @@ class Battle::Move::StartUserSideDoubleSpeed < Battle::Move
     @battle.pbDisplay(_INTL("The Tailwind blew from behind {1}!", user.pbTeam(true)))
     @battle.allSameSideBattlers(user).each do |b|
       pbRaiseStatStageByAbility(:ATTACK, 1, b) if b.hasActiveAbility?(:WINDRIDER)
+      Battle::AbilityEffects.triggerOnBeingHit(b.ability, user, b, self, @battle) if b.hasActiveAbility?(:WINDPOWER)
     end
   end
 end

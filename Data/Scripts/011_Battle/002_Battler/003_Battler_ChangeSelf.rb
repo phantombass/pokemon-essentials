@@ -91,6 +91,7 @@ class Battle::Battler
     # Do other things
     @battle.pbClearChoice(@index)   # Reset choice
     pbOwnSide.effects[PBEffects::LastRoundFainted] = @battle.turnCount
+    @battle.sideFaintCounts[idxOwnSide] += 1
     # Check other battlers' abilities that trigger upon a battler fainting
     pbAbilitiesOnFainting
     # Check for end of primordial weather
@@ -330,6 +331,7 @@ class Battle::Battler
     @effects[PBEffects::Disable]      = 0
     @effects[PBEffects::DisableMove]  = nil
     @effects[PBEffects::WeightChange] = target.effects[PBEffects::WeightChange]
+    @battle.hitsTakenCounts[idxOwnSide][pokemonIndex] = @battle.hitsTakenCounts[target.idxOwnSide][target.pokemonIndex]
     @battle.scene.pbRefreshOne(@index)
     @battle.pbDisplay(_INTL("{1} transformed into {2}!", pbThis, target.pbThis(true)))
     pbOnLosingAbility(oldAbil)

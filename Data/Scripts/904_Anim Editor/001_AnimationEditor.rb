@@ -105,19 +105,20 @@ class AnimationEditor
   # pbCommonAnimation.
   COMMON_ANIMATIONS = [
     "AquaRing", "Attract", "BanefulBunker", "BeakBlast", "Bind",
-    "Burn", "Clamp", "Confusion", "CraftyShield", "Curse",
-    "EatBerry", "ElectricTerrain", "FireSpin", "FocusPunch", "Frozen",
-    "GrassyTerrain", "Hail", "HarshSun", "HealingWish", "HealthDown",
-    "HealthUp", "HeavyRain", "Infestation", "Ingrain", "KingsShield",
-    "LeechSeed", "LevelUp", "LunarDance", "MagmaStorm", "MegaEvolution",
-    "MegaEvolution2", "MistyTerrain", "Nightmare", "Obstruct", "Octolock",
-    "Paralysis", "ParentalBond", "Poison", "Powder", "PrimalGroudon",
-    "PrimalGroudon2", "PrimalKyogre", "PrimalKyogre2", "Protect", "PsychicTerrain",
-    "QuickGuard", "Rain", "Rainbow", "RainbowOpp", "Sandstorm",
-    "SandTomb", "SeaOfFire", "SeaOfFireOpp", "Shadow", "ShadowSky",
-    "ShellTrap", "Shiny", "Sleep", "SpikyShield", "StatDown",
-    "StatUp", "StrongWinds", "Sun", "SuperShiny", "Swamp",
-    "SwampOpp", "Toxic", "UseItem", "WideGuard", "Wrap"
+    "Burn", "Clamp", "Confusion", "CraftyShield", "CriticalHitRateUp",
+    "Curse", "EatBerry", "ElectricTerrain", "FireSpin", "FocusPunch",
+    "Frozen", "GrassyTerrain", "Hail", "HarshSun", "HealingWish",
+    "HealthDown", "HealthUp", "HeavyRain", "Infestation", "Ingrain",
+    "KingsShield", "LeechSeed", "LevelUp", "LunarDance", "MagmaStorm",
+    "MegaEvolution", "MegaEvolution2", "MistyTerrain", "Nightmare", "Obstruct",
+    "Octolock", "Paralysis", "ParentalBond", "Poison", "Powder",
+    "PrimalGroudon", "PrimalGroudon2", "PrimalKyogre", "PrimalKyogre2", "Protect",
+    "PsychicTerrain", "QuickGuard", "Rain", "Rainbow", "RainbowOpp",
+    "SaltCure", "Sandstorm", "SandTomb", "SeaOfFire", "SeaOfFireOpp",
+    "Shadow", "ShadowSky", "ShellTrap", "Shiny", "Sleep",
+    "SpikyShield", "StatDown", "StatUp", "StrongWinds", "Sun",
+    "SuperShiny", "Swamp", "SwampOpp", "SyrupBomb", "Toxic",
+    "UseItem", "WideGuard", "Wrap"
   ]
   DELETABLE_COMMAND_PANE_PROPERTIES = [
     :x, :y, :z, :frame, :visible, :opacity, :zoom_x, :zoom_y, :angle, :flip, :blending

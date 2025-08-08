@@ -94,6 +94,8 @@ class Battle
   attr_reader   :battleBond
   attr_reader   :corrosiveGas
   attr_reader   :usedInBattle     # Whether each Pokémon was used in battle (for Burmy)
+  attr_reader   :hitsTakenCounts  # For Rage Fist
+  attr_reader   :sideFaintCounts  # For Last Respects
   attr_reader   :successStates    # Success states
   attr_accessor :lastMoveUsed     # Last move used
   attr_accessor :lastMoveUser     # Last move user
@@ -164,6 +166,8 @@ class Battle
     @battleBond        = [Array.new(@party1.length, false), Array.new(@party2.length, false)]
     @corrosiveGas      = [Array.new(@party1.length, false), Array.new(@party2.length, false)]
     @usedInBattle      = [Array.new(@party1.length, false), Array.new(@party2.length, false)]
+    @hitsTakenCounts   = [Array.new(@party1.length, 0),     Array.new(@party2.length, 0)]
+    @sideFaintCounts   = [0, 0]
     @successStates     = []
     @lastMoveUsed      = nil
     @lastMoveUser      = -1
@@ -651,6 +655,7 @@ class Battle
                      PBEffects::MirrorCoatTarget,
                      PBEffects::Octolock,
                      PBEffects::SkyDrop,
+                     PBEffects::SyrupBombUser,
                      PBEffects::TrappingUser]
     allBattlers.each do |b|
       effectsToSwap.each do |i|

@@ -694,18 +694,21 @@ ItemHandlers::BattleUseOnBattler.add(:MAXMUSHROOMS, proc { |item, battler, scene
 
 ItemHandlers::BattleUseOnBattler.add(:DIREHIT, proc { |item, battler, scene|
   battler.effects[PBEffects::FocusEnergy] = 2
+  scene.pbCommonAnimation("CriticalHitRateUp", battler)
   scene.pbDisplay(_INTL("{1} is getting pumped!", battler.pbThis))
   battler.pokemon.changeHappiness("battleitem")
 })
 
 ItemHandlers::BattleUseOnBattler.add(:DIREHIT2, proc { |item, battler, scene|
   battler.effects[PBEffects::FocusEnergy] = 2
+  scene.pbCommonAnimation("CriticalHitRateUp", battler)
   scene.pbDisplay(_INTL("{1} is getting pumped!", battler.pbThis))
   battler.pokemon.changeHappiness("battleitem")
 })
 
 ItemHandlers::BattleUseOnBattler.add(:DIREHIT3, proc { |item, battler, scene|
   battler.effects[PBEffects::FocusEnergy] = 3
+  scene.pbCommonAnimation("CriticalHitRateUp", battler)
   scene.pbDisplay(_INTL("{1} is getting pumped!", battler.pbThis))
   battler.pokemon.changeHappiness("battleitem")
 })
