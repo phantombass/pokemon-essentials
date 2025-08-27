@@ -2921,7 +2921,7 @@ Battle::AbilityEffects::OnSwitchIn.add(:DAUNTLESSSHIELD,
   proc { |ability, battler, battle, switch_in|
     next if battler.abilityUsedOnce?
     battler.pbRaiseStatStageByAbility(:DEFENSE, 1, battler)
-    battler.markAbilityUsedOnce
+    battler.markAbilityUsedOnce if Settings::MECHANICS_GENERATION >= 9
   }
 )
 
@@ -3133,7 +3133,7 @@ Battle::AbilityEffects::OnSwitchIn.add(:INTREPIDSWORD,
   proc { |ability, battler, battle, switch_in|
     next if battler.abilityUsedOnce?
     battler.pbRaiseStatStageByAbility(:ATTACK, 1, battler)
-    battler.markAbilityUsedOnce
+    battler.markAbilityUsedOnce if Settings::MECHANICS_GENERATION >= 9
   }
 )
 
